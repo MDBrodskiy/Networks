@@ -20,6 +20,7 @@
 ## Table of Contents
 
 * [**Notes**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/)
+  * [**Section 1**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section1.pdf)
 * [**Homework**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/)
 * [**Exams**](https://github.com/MDBrodskiy/Networks/tree/master/Exams/)
 
