@@ -288,6 +288,226 @@
 
     \end{itemize}
 
+  \item Network types classified by switching technology — there are two fundamental approaches to moving data through a network of links
+
+    \begin{itemize}
+
+      \item Circuit Switching
+
+        \begin{itemize}
+
+          \item Resources needed along a path (e.g.\ link transmission rate) to provide for communication between hosts are reserved before the transmission starts
+
+          \item This reservation defines the path followed by data and guarantees the communication
+
+          \item The resources are reserved for the duration of the communication session between the hosts
+
+        \end{itemize}
+
+      \item Packet Switching
+
+        \begin{itemize}
+
+          \item A message is divided into smaller data units or packets, which are transmitted over the network using the resources demanded
+
+          \item No reservation of resources
+
+          \item Different packets in the same ``information stream'' may traverse different paths and suffer different delays
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item The Network Core
+
+    \begin{itemize}
+
+      \item The network core of the Internet is a meash of interconnected packet switches
+
+      \item Thus, the Internet is a packet-switched network
+
+      \item Packet switching: hosts break host messages into packets
+
+        \begin{itemize}
+
+          \item Packets are forwarded from one router to the next across links on path from source to destination
+
+          \item Each packet is transmitted at full link capacity in each link
+
+          \item No reservation $\rightarrow$ A packet may have to wait (that is, queue on a router)
+
+        \end{itemize}
+
+      \item Host sending function
+
+        \begin{enumerate}
+
+          \item Takes application message
+
+          \item Breaks into smaller chunks or packets, of length $L$ bits
+
+          \item Transmits packet into access network at transmission rate $R$ (bits/sec)
+
+            \begin{itemize}
+                
+              \item Full link transmission rate: link capacity (aka link bandwidth)
+
+            \end{itemize}
+
+          \item Packet transmission delay = Time needed to transmit $L$-bit packet into link = $\frac{L}{R}$
+
+        \end{enumerate}
+
+      \item Router Function
+
+        \begin{itemize}
+            
+          \item Store and forward — entire packet must arrive at input link of router before it can be forwarded to output link and then transmitted on next link
+
+          \item Transmission delay — takes $L$/$R$ seconds to transmit (push out) $L$-bit packet into output link at $R$ bps
+
+          \item End-to-end transmission delay — $2L$/$R$, ignoring other types of delays (more on delay shortly)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Circuit Switching
+
+    \begin{itemize}
+
+      \item End-to-end resources reserved for, and allocated to communication between source and destination
+
+      \item Commonly used in traditional telephone networks
+
+      \item Usually, the communication is referred to as a ``call''
+
+      \item Before the sender can send the information, the network must establish a connection between the sender and the receiver (resource reservation)
+
+        \begin{itemize}
+
+          \item Switches on the path between the sender and receiver maintain connection state
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Internet Structure
+
+    \begin{itemize}
+
+      \item Hosts connect to Internet via access to Internet Service Provider (ISPs)
+
+        \begin{itemize}
+
+          \item Residential, enterprise (company, university, commercial) ISPs
+
+        \end{itemize}
+
+      \item Access ISPs in turn must be interconnected
+
+        \begin{itemize}
+
+          \item So that any two hosts can send packets to each other
+
+        \end{itemize}
+
+      \item Resulting network of networks is very complex
+
+        \begin{itemize}
+
+          \item Evolution was driven by economics and national policies
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Nodal Delay
+
+    \begin{itemize}
+
+      \item Four types — Nodal processing, transmission, queueing, and propagation
+
+      \item $d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}$
+
+      \item Nodal Processing ($d_{proc}$)
+
+        \begin{itemize}
+
+          \item Check bit errors, determine output link, \ldots
+
+          \item Typically $<1[\si{\micro\second}]$ or less
+
+        \end{itemize}
+
+      \item Queuing Delay ($d_{queue}$)
+
+        \begin{itemize}
+
+          \item Time waiting at output link for transmission
+
+          \item Depends on congestion level of router
+
+          \item Can vary from packet to packet
+
+          \item Each output link has its own buffer (aka queue)
+
+          \item Buffers have finite memory space
+
+          \item Arrival rate (bps) to output link in router exceeds transmission rate, $R$ bps, of this link temporarily
+
+        \end{itemize}
+
+      \item Transmission Delay ($d_{trans}$)
+
+        \begin{itemize}
+
+          \item $L$ packet length (bits)
+
+          \item $R$ link transmission rate (bps)
+
+          \item $d_{trans}=L/R$
+
+        \end{itemize}
+
+      \item Propagation Delay ($d_{prop}$)
+
+        \begin{itemize}
+
+          \item $d$ length of physical link
+
+          \item $s$ propagation speed ($2\cdot10^{8}$ to $3\cdot10^8$ meters per second)
+
+          \item $d_{prop}=d/s$
+
+        \end{itemize}
+
+    \end{itemize}
+
+    \item Packet Queuing Delay
+
+    \begin{itemize}
+
+      \item $R$ link capacity (bps)
+
+      \item $L$ packet length (bits per packet)
+
+      \item $a$ average packet arrival rate (packets per second)
+
+      \item The traffic intensity is $(La)/R$
+
+        \begin{itemize}
+
+          \item When $(La)/R\approx 0$, average queueing delay small
+
+          \item When $(La)/R=1$, average queueing delay large
+
+          \item When $(La)/R>1$, ``work'' arriving is more than can be serviced — average delay is infinite
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
