@@ -550,6 +550,288 @@
 
     \end{itemize}
 
+  \item Protocol Layers and Service Models
+
+    \begin{itemize}
+
+      \item Example — Think about the organization of air travel
+
+        \begin{itemize}
+
+          \item Ticket purchase, baggage check, gates (loading), runway takeoff, airplane routing, and then the steps repeat in the reverse order
+
+        \end{itemize}
+
+      \item Layers — Each layer implements a service
+
+        \begin{itemize}
+
+          \item Via its own internal-layer actions
+
+          \item Using the services provided by the layer directly below
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Why Layering?
+
+    \begin{itemize}
+
+      \item Explicit structure allows identification, relationship of complex system's pieces
+
+        \begin{itemize}
+
+          \item Layered reference model for discussion: conceptual framework for building components of the network
+
+            \begin{itemize}
+
+              \item TCP/IP reference model (Internet reference model)
+
+              \item OSI model
+
+            \end{itemize}
+
+          \item Modularization eases maintenance, updating of system
+
+            \begin{itemize}
+
+              \item Change of implementation of layer's service transparent to rest of system
+
+              \item For example, change in gate procedure doesn't affect rest of system
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item Protocol Layering
+
+        \begin{itemize}
+
+          \item Network designers organize protocols in layers to provide structure to the design of network protocols
+
+            \begin{itemize}
+
+              \item Each protocol belongs to one of the layers
+
+              \item A layer protocol can be implemented in software or hardware or in a combination of the two
+
+            \end{itemize}
+
+          \item Service model of a layer — services that a layer offers to the layer above
+
+            \begin{itemize}
+
+              \item Each layer provides its service by:
+
+              \item Performing certain actions within the layer
+
+              \item Using the services of the layer directly below
+
+            \end{itemize}
+
+          \item Network architecture — A set of layers and protocol
+
+            \begin{itemize}
+
+              \item Provide the network developer with specific set of services to implement the layer
+
+              \item Does not provide details of implementation
+
+            \end{itemize}
+
+          \item Protocol stack — the protocols of various layers
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Internet Protocol Stack
+
+    \begin{enumerate}
+
+      \item Application — Supporting network applications
+
+        \begin{itemize}
+
+          \item Protocols: IMAP, SMTP, HTTP
+
+        \end{itemize}
+
+      \item Transport — Process-process data transfer; adds a transport header to message bits to form segment
+
+        \begin{itemize}
+
+          \item Protocols: TCP, UDP
+
+        \end{itemize}
+
+      \item Network — Routing of packets from source to destination; adds another header to form packet
+
+        \begin{itemize}
+
+          \item Protocols: IP, routing protocols
+
+        \end{itemize}
+
+      \item Link — Data transfer between neighboring network elements; adds another header to form frame
+
+        \begin{itemize}
+
+          \item IEEE 802.3 (Ethernet), IEEE 802.11 (WiFi), PPP, \ldots
+
+        \end{itemize}
+
+      \item Physical — Bits ``on the wire''
+
+    \end{enumerate}
+
+    \begin{center}
+      \begin{tabular}[h]{|c|}
+        \hline
+        Application\\
+        \hline
+        Transport\\
+        \hline
+        Network\\
+        \hline
+        Link\\
+        \hline
+        Physical\\
+        \hline
+      \end{tabular}
+    \end{center}
+
+  \item ISO OSI Reference Model
+
+    \begin{itemize}
+
+      \item Has two layers not found in the Internet protocol stack
+
+        \begin{itemize}
+
+          \item Presentation — allow applications to interpret meaning of data, e.g., encryption, compression, machine-specific conventions
+
+          \item Session — Syncrhonization checkpointing, recovery of data exchange
+
+          \item Internet stack ``missing'' these layers
+
+            \begin{itemize}
+
+              \item These services, if needed, must be implemented in application
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+    \begin{center}
+      \begin{tabular}[H]{|c|}
+        \hline
+        Application\\
+        \hline
+        Presentation\\
+        \hline
+        Session\\
+        \hline
+        Transport\\
+        \hline
+        Network\\
+        \hline
+        Link\\
+        \hline
+        Physical\\
+        \hline
+      \end{tabular}
+    \end{center}
+
+  \item Internet History
+
+    \begin{itemize}
+
+      \item 1961: Kleinrock — queueing theory shows effectiveness of packet-swtiching
+
+      \item 1964: Baran — packet-switching in military nets
+
+      \item 1967: ARPAnet conceived by Advanced Research Projects Agency
+
+      \item 1969: First ARPAnet node operational
+
+      \item 1972:
+
+        \begin{itemize}
+
+          \item ARPAnet public demo
+
+          \item NCP (Network Control Protocol) first host-host protocol
+
+          \item First e-mail program
+
+          \item ARPAnet has 15 nodes
+
+        \end{itemize}
+
+      \item 1970: ALOHAnet satellite network in Hawaii
+
+      \item 1974: Cerf and Kahn — architecture for interconnecting networks
+
+        \begin{itemize}
+
+          \item Minimalism, autonomy — no internal changes required to interconnect networks
+
+          \item Best-effort service model
+
+          \item Stateless routing
+
+          \item Decentralized control
+
+          \item This defined today's internet structure
+
+        \end{itemize}
+
+      \item 1976: Ethernet at Xerox PARC
+
+      \item Late 70's: Proprietary architectures: DECnet, SNA, XNA
+
+      \item Late 70's: Switching fixed length packets (ATM precursor)
+
+      \item 1979: ARPAnet has 200 nodes
+
+      \item 1983: Deployment of TCP/IP
+
+      \item 1982: SMTP e-mail protocol defined
+
+      \item 1983: DNS defined for name-to-IP-address translation
+
+      \item 1985: FTP protocol defined
+
+      \item 1988: TCP congestion control
+
+      \item New national networks: CSnet, BITnet, NSFnet, Minitel
+
+      \item 100,000 hosts connected to confederation of networks
+
+      \item Early 1990s: ARPAnet decommissioned
+
+      \item 1991: NSF lifts restrictions on commercial use of NSFnet (decommissioned, 1995)
+
+      \item Early 1990s: Web
+
+        \begin{itemize}
+
+          \item Hypertext [Bush 1945, Nelson 1960s]
+
+          \item HTML, HTTP: Berners-Lee
+
+          \item 1994: Mosaic, later Netscape
+
+        \end{itemize}
+
+      \item Late 1990s: Commercialization of the Web
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
