@@ -1,0 +1,460 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Written By Michael Brodskiy
+% Class: Fundamentals of Networks
+% Professor: E. Bernal Mor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Includes.tex}
+
+\title{The Application Layer}
+\date{\today}
+\author{Michael Brodskiy\\ \small Professor: E. Bernal Mor}
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+
+  \item Network Applications
+
+    \begin{itemize}
+
+      \item Social networking
+
+      \item Web
+
+      \item Text messaging
+
+      \item E-mail
+
+      \item Multi-user network games
+
+      \item Streaming stored video (YouTube, Hulu, Netflix)
+
+      \item P2P File Sharing
+
+      \item And many more
+
+    \end{itemize}
+
+  \item Creating Network Applications
+
+    \begin{itemize}
+
+      \item Write programs that:
+
+        \begin{itemize}
+
+          \item Run on (different) end systems
+
+          \item Communicate over network
+
+          \item For example, web server software communicates with browser software
+
+        \end{itemize}
+
+      \item No need to write software for network-core devices (intermediate nodes)
+
+        \begin{itemize}
+
+          \item Network-core devices do not run user applications
+
+          \item Applications on end systems allow for rapid application development and propagation
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Application Architecture
+
+    \begin{itemize}
+
+      \item Network architecture — a set of layers and protocols
+
+        \begin{itemize}
+
+          \item It is fixed, and provides the network application developer with specific set of services
+
+        \end{itemize}
+
+      \item Application Architecture — define how the application is structured over various end systems
+
+        \begin{itemize}
+
+          \item Designed by the application developer
+
+          \item Predominant architectural paradigms
+
+            \begin{itemize}
+
+              \item Client-server
+
+              \item Peer-to-peer (P2P)
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Client-server Architecture
+
+    \begin{itemize}
+        
+      \item Server
+
+        \begin{itemize}
+
+          \item Always-on host
+
+          \item Permanent IP-address (like ID)
+
+          \item Often in data centers, for scaling
+
+        \end{itemize}
+
+      \item Clients
+
+        \begin{itemize}
+
+          \item Contact, communicate with server
+
+          \item May be intermittently connected
+
+          \item May have dynamic IP addresses
+
+          \item Do not communicate directly with each other
+
+        \end{itemize}
+
+      \item Examples: HTTP, IMAP, SFTP
+
+    \end{itemize}
+
+  \item Peer-Peer (P2P) Architecture
+
+    \begin{itemize}
+
+      \item No always-on server
+
+      \item Arbitrary end systems directly communicate
+
+      \item Peers request service from other peers, provide service in return to other peers
+
+        \begin{itemize}
+
+          \item Self scalability — new peers bring new service capacity, as well as new service demands
+
+        \end{itemize}
+
+      \item Peers are intermittently connected and change IP addresses 
+
+        \begin{itemize}
+
+          \item Complex management
+
+        \end{itemize}
+
+      \item Example: P2P File Sharing
+
+    \end{itemize}
+
+  \item Process Communication
+
+    \begin{itemize}
+
+      \item Process — program running within a host
+
+        \begin{itemize}
+
+          \item Within same host, two processes communicate using inter-process communication, defined by OS (Operating System)
+
+          \item Processes in different hosts communicate by exchansing messages
+
+        \end{itemize}
+
+      \item Client process — process that initiates communication
+
+      \item Server process — process that wants to be contacted
+
+      \item Note: applications with P2P architectures have client processes 7& server processes
+
+    \end{itemize}
+
+  \item Sockets
+
+    \begin{itemize}
+
+      \item Process send/receives messages to/from its socket
+
+      \item Socket analogous to door
+
+        \begin{itemize}
+
+          \item Sending process shoves message out the door
+
+          \item Sending process relies on transport infrastructure on other side of door to deliver message to socket at receiving process
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Addressing Processes
+
+    \begin{itemize}
+
+      \item To receive messages, a process must have an identifier
+
+      \item Host device has a unique IP address
+
+      \item Identifier includes both IP address and port numbers associated with process on host
+
+        \begin{itemize}
+
+          \item HTTP server: 80
+
+          \item Mail server: 25
+
+        \end{itemize}
+
+      \item To send HTTP message to gaia.cs.umass.edu web server:
+
+        \begin{itemize}
+
+          \item IP address: 128.119.245.12
+
+          \item Port number: 80
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item An Application Layer Protocol Defines:
+
+    \begin{itemize}
+
+      \item Types of messages exchanged
+
+        \begin{itemize}
+
+          \item Example: request, response
+
+        \end{itemize}
+
+      \item Message syntax
+
+        \begin{itemize}
+
+          \item What fields in messages \& how fields are delineated
+
+        \end{itemize}
+
+      \item Message semantics
+
+        \begin{itemize}
+
+          \item Meaning of information in fields
+
+        \end{itemize}
+
+      \item Rules for when and how processes send \& respond to messages
+
+    \end{itemize}
+
+  \item Application Layer Protocols can be
+
+    \begin{itemize}
+
+      \item Open protocols
+
+        \begin{itemize}
+
+          \item Defined in RFCs, everyone has access to protocol definition
+
+          \item Allows for interoperability
+
+          \item Example: HTTP, SMTP
+
+        \end{itemize}
+
+      \item Proprietary protocols
+
+        \begin{itemize}
+
+          \item Example: Skype
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Transport Layer Services for Applications
+
+    \begin{itemize}
+
+      \item Transport layer is on the other side of the ``door''
+
+      \item There are multiple Transport-layer protocols that provide different services
+
+      \item The application developer must choose a Transport-layer protocol, depending on the services needed by the application
+
+        \begin{itemize}
+
+          \item Examples: priority mail, express mail, certified mail
+
+        \end{itemize}
+
+      \item A Transport-layer protocol can provide a different array of services
+
+    \end{itemize}
+
+  \item Transport Services
+
+    \begin{itemize}
+
+      \item Data integrity/reliable transport
+
+        \begin{itemize}
+
+          \item Some apps (\textit{e}.\textit{g}.\ file transfer, web transactions) require 100\% reliable data transfer
+
+          \item Other apps (\textit{e}.\textit{g}.\ audio) can tolerate some loss
+
+        \end{itemize}
+
+      \item Timing
+
+        \begin{itemize}
+
+          \item Some apps (\textit{e}.\textit{g}. Internet telephony, interactive games) require low delay to be ``effective''
+
+        \end{itemize}
+
+      \item Throughput
+
+        \begin{itemize}
+
+          \item Some apps (e.g., multimedia) require minimum amount of throughput to be ``effective''
+
+          \item Other apps (``elastic apps'') make use of whatever throughput they get
+
+        \end{itemize}
+
+      \item Security
+
+        \begin{itemize}
+
+          \item Encryption, data integrity, \ldots
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Internet Transport Protocol Services
+
+    \begin{itemize}
+
+      \item TCP Service
+
+        \begin{itemize}
+
+          \item Reliable transport between sending and receiving processes
+
+          \item Flow control — sender will not overwhelm receiver
+
+          \item Congestion control — throttle sender when network overloaded
+
+          \item Does not provide timing, minimum throughput guarantee, security
+
+          \item Connection-oriented service: setup required between client and service processes
+
+        \end{itemize}
+
+      \item UDP Service:
+
+        \begin{itemize}
+
+          \item Unreliable data transfer between sending and receiving process
+
+          \item Does not provide reliability, flow control, congestion control, timing, throughput guarantee, security, or connection setup
+
+          \item Connectionless service: no setup required
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Vanilla TCP \& UDP sockets
+
+    \begin{itemize}
+
+      \item No encryption
+
+      \item Clear text passwords sent into socket traverse Internet in clear text
+
+    \end{itemize}
+
+  \item Transport Layer Security (TLS)
+
+    \begin{itemize}
+
+      \item Provides encrypted TCP connections
+
+      \item Data integrity
+
+      \item End-point authentication
+
+      \item TSL implemented in Application Layer
+
+        \begin{itemize}
+
+          \item Applications use TLS libraries, that use TCP in turn
+
+        \end{itemize}
+
+      \item TLS socket API
+
+        \begin{itemize}
+
+          \item Clear text sent into socket traverse Internet encrypted
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Designing Network Applications
+
+    \begin{itemize}
+
+      \item It is a complex process
+
+      \item Requires knowledge of programming, software engineering, and networking
+
+      \item From a networking point of view, there are two major decisions:
+
+        \begin{enumerate}
+
+          \item Type of application (aka Application Architecture)
+
+            \begin{itemize}
+
+              \item Client-server vs.\ peer-to-peer
+
+            \end{itemize}
+
+          \item Services requested to the Transport Layer
+
+            \begin{itemize}
+
+              \item \textit{E}.\textit{g}.\  reliable vs. unreliable data transfer
+
+            \end{itemize}
+
+        \end{enumerate}
+
+    \end{itemize}
+
+\end{itemize}
+
+\end{document}
+
