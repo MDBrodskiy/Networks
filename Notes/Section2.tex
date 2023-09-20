@@ -420,6 +420,14 @@
 
         \end{itemize}
 
+      \item Datagram Transport Layer Service (DTLS) protocol
+
+        \begin{itemize}
+
+          \item Adaptation of TLS to run over connectionless protocols such as UDP
+
+        \end{itemize}
+
     \end{itemize}
 
   \item Designing Network Applications
@@ -449,6 +457,386 @@
               \item \textit{E}.\textit{g}.\  reliable vs. unreliable data transfer
 
             \end{itemize}
+
+        \end{enumerate}
+
+    \end{itemize}
+
+  \item Web and HTTP
+
+    \begin{itemize}
+
+      \item Web page consists of several objects, each of which can be store on different Web servers
+
+      \item Object can be HTML, JPEG, Java applet, audio file, etc.
+
+      \item Web page consists of a base HTML-file, which includes several referenced objects
+
+      \item Each object is addressable by a URL (Uniform Resource Locator), \textit{e}.\textit{g}.,
+
+        \begin{center}
+          $\underbrace{\text{\texttt{www.someschool.edu/}}}_{\text{host name}}\underbrace{\text{\texttt{someDept/pic.gif}}}_{\text{path name}}$
+        \end{center}
+
+    \end{itemize}
+
+  \item HTTP Overview
+
+    \begin{itemize}
+
+      \item HTTP — Hypertext Transfer Protcol
+
+      \item Web's application layer protocol
+
+      \item Client/server model
+
+        \begin{itemize}
+
+          \item Client: Browser that requests, receives (using HTTP protocol) and ``displays'' Web objects
+
+          \item Server: Web server sends (using HTTP protocol) objects in response to requests
+
+        \end{itemize}
+
+      \item Versions
+
+        \begin{itemize}
+
+          \item HTTP/1.0 (RFC1945)
+
+            \begin{itemize}
+
+              \item Original HTTP version (early 1990s)
+
+            \end{itemize}
+
+          \item HTTP/1.1 (RFC7230,\ldots)
+
+            \begin{itemize}
+
+              \item Used by most of the HTTP transactions
+
+            \end{itemize}
+
+          \item HTTP/2 (RFC7540,\ldots)
+
+            \begin{itemize}
+
+              \item Standardized in 2015 and increasingly used by browsers and servers
+
+            \end{itemize}
+
+          \item HTTP/3 (RFC9114)
+
+            \begin{itemize}
+
+              \item IETF published it as a proposed standard in June 2022
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item HTTP used TCP (except HTTP/3):
+
+        \begin{itemize}
+
+          \item Client initiates TCP connect (creates socket) to server, port 80
+
+          \item Server accepts TCP connection from client
+
+          \item HTTP messages (application-layer protocol messages) exchanged between browser (HTTP client) and Web server (HTTP server)
+
+          \item TCP connection closed
+
+        \end{itemize}
+
+      \item HTTP is ``stateless''
+
+        \begin{itemize}
+
+          \item Server maintains no information about past client requests
+
+        \end{itemize}
+
+      \item Protocols that maintain ``state'' are complex
+
+        \begin{itemize}
+
+          \item Past history (state) must be maintained
+
+          \item If server/client crashes, their view of ``state'' may be inconsistent, must be reconciled
+
+        \end{itemize}
+
+      \item Non-persistent HTTP
+
+        \begin{enumerate}
+
+          \item TCP connection opened
+
+          \item At most one object sent over TCP connection
+
+          \item TCP connection closed
+
+        \end{enumerate}
+
+        \begin{itemize}
+
+          \item Downloading multiple objects requires multiple connections
+
+        \end{itemize}
+
+      \item Persistent HTTP
+
+        \begin{enumerate}
+
+          \item TCP connection opened to a server
+
+          \item Multiple objects can be sent over single TCP connection between client, and that server
+
+          \item TCP connection closed
+
+        \end{enumerate}
+
+      \item RTT (Round-Trip Time) definition: time for a small packet to travel from client to server and back
+
+        \begin{itemize}
+
+          \item Includes propagation, queueing, and processing delays
+
+        \end{itemize}
+
+      \item Non-persistent HTTP response time (per object)
+
+        \begin{itemize}
+
+          \item One RTT to initiate TCP connection
+
+          \item One RTT for HTTP request/response
+
+          \item File/object transmission time
+
+          \item Non-persistent HTTP time $\approx$ 2RTT + transmission time (per object)
+
+        \end{itemize}
+
+      \item Non-persistent HTTP issues:
+
+        \begin{itemize}
+
+          \item Requires 2 RTTs per object
+
+          \item OS overhead for each TCP connection
+
+          \item Browsers often open parallel TCP connections to fetch referenced objects in parallel
+
+        \end{itemize}
+
+      \item Persistent HTTP/1.1:
+
+        \begin{itemize}
+
+          \item Server leaves connection open after sending response
+
+          \item Subsequent HTTP messages between same client/server sent over open connection
+
+          \item Client sends requests as soon as it encounters a referenced object
+
+          \item As little as one RTT for all the referenced objects (cutting response time in half)
+
+        \end{itemize}
+
+      \item HTTP Request Message
+
+        \begin{itemize}
+
+          \item Two types of HTTP messages: request, response
+
+          \item HTTP request message is in ASCII (human-readable format)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item HTTP Methods
+
+    \begin{itemize}
+
+      \item GET method
+
+        \begin{itemize}
+
+          \item To request an object
+
+          \item If user data (like form input), the data is included in URL field of HTTP GET request message (following a '?'):
+
+            \begin{center}
+              \texttt{ www.somesite.com/animalsearch?table\&chair}
+            \end{center}
+
+        \end{itemize}
+
+      \item POST method
+
+        \begin{itemize}
+
+          \item Web page often includes form input
+
+          \item User input sent from client to server in entity body of HTTP POST request message
+
+        \end{itemize}
+
+      \item HEAD method
+
+        \begin{itemize}
+
+          \item Requests headers (only) that would be returned if specified URL were requested  with an HTTP GET method
+
+        \end{itemize}
+
+      \item PUT method
+
+        \begin{itemize}
+
+          \item Uploads new file (object) to server
+
+          \item Completely replaces file that exists at specified URL with content in entity body
+
+        \end{itemize}
+
+      \item DELETE method
+
+        \begin{itemize}
+
+          \item Deletes file specified in the URL field
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item HTTP Response Status Codes
+
+    \begin{itemize}
+
+      \item 200 — OK
+
+        \begin{itemize}
+
+          \item Request succeeded, requested object later in this message
+
+        \end{itemize}
+
+      \item 301 — Moved Permanently
+
+        \begin{itemize}
+
+          \item Requested object moved, new location specified later in this msg (Location:)
+
+        \end{itemize}
+
+      \item 400 — Bad Request
+
+        \begin{itemize}
+
+          \item Request msg not understood by server
+
+        \end{itemize}
+
+      \item 404 — Not Found
+
+        \begin{itemize}
+
+          \item Requested document not found on this server
+
+        \end{itemize}
+
+      \item 505 HTTP — Version Not Supported
+
+    \end{itemize}
+
+  \item HTTP/2
+
+    \begin{itemize}
+
+      \item Key goal: decreased delay in multiple-object HTTP requests
+
+      \item HTTP/1.1: introduced multiple, pipelined GETs over single TCP connection (persistent HTTP)
+
+        \begin{itemize}
+
+          \item FCFS (First-Come-First-Served) scheduling: server responds in-order to GET requests
+
+          \item Head-Of-Line (HOL) blocking: with FCFS, small object may have to wait for transmission behind large object(s)
+
+          \item Loss recovery (retransmitting lost TCP segments) stalls object transmission
+
+        \end{itemize}
+
+      \item HTTP/2: increased flexibility at server in sending objects to client
+
+        \begin{itemize}
+
+          \item Methods, status codes, most header fields unchanged from HTTP 1.1
+
+          \item Transmission order of requested objects based on client-specified object priority (not necessarily FCFS)
+
+          \item Push unrequested objects to client
+
+          \item Divide objects into frames, schedule frames to mitigate HOL blocking
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item HTTP/2 to HTTP/3
+
+    \begin{itemize}
+
+      \item HTTP/2 over single TCP connection means:
+
+        \begin{itemize}
+
+          \item Recovery from packet loss still stalls all object transmissions
+            
+            \begin{itemize}
+
+              \item As in HTTP 1.1, browsers have incentive to open multiple parallel TCP connections to reduce stalling and increase overall application data throughput
+
+            \end{itemize}
+
+          \item No security over vanilla TCP connection
+
+        \end{itemize}
+
+      \item HTTP/3 operates over QUIC, a transport protocol built on UDP
+
+        \begin{itemize}
+
+          \item Adds security, per object error, and congestion-control (more pipelining) over UDP
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Maintaining User/Server State: Cookies
+
+    \begin{itemize}
+
+      \item Recall: HTTP GET/response interaction is stateless
+
+      \item Web sites and client browser use cookies to maintain some state between transactions
+
+      \item Four components:
+
+        \begin{enumerate}
+
+          \item Cookie header line of HTTP response message
+
+          \item Cookie header line in next HTTP request message
+
+          \item Cookie file kept on user's host, managed by user's browser
+
+          \item Back-end database at Web site
 
         \end{enumerate}
 
