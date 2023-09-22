@@ -1,0 +1,80 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Written By Michael Brodskiy
+% Class: Fundamentals of Networks
+% Professor: E. Bernal Mor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Includes.tex}
+
+\title{Conceptual Homework 1}
+\date{October 2, 2023}
+\author{Michael Brodskiy\\ \small Professor: E. Bernal Mor}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+
+  \item Consider sending $L$-byte packets from a source host to a destination host over a fixed route. List the delay components in the end-to-end delay of a packet. Which of these delays are constant and which are variable?
+    
+  \item How long is the propagation delay for a packet of length $1,000$ bytes over a link of distance $2,500$ km, propagation speed $2.5\cdot10^8$ m/s, and transmission rate $2$ Mbps? More generally, how long is the propagation delay for a packet of length $L$ over a link of distance $d$, propagation speed $s$, and transmission rate $R$ bps? Does this delay depend on packet length?  Does this delay depend on transmission rate?
+    
+  \item Suppose Host A wants to send a large file to Host B. The path from Host A to Host B has three links, of rates $R_1=500$ kbps, $R_2=2$ Mbps, and $R_3=1$ Mbps. Assume no other traffic in the network.
+
+    \begin{enumerate}
+
+      \item What is the average throughput for the file transfer?
+
+      \item Suppose the file is 4 million bytes. The first bit arrives at the receiver at a given time. From this time, how long will it take to receive all the file in Host B approximately?
+
+      \item Repeat (a) and (b), but now with $R_2$ reduced to $100$ kbps.
+
+    \end{enumerate}
+    
+  \item Considering only transmission delays, the equation for the end-to-end transmission delay, $D$, of sending one packet of length $L$ over $N$ links of transmission rate $R$ is $D=N(L/R)$. Generalize this formula for sending $P$ such packets back-to-back over the $N$ links.
+    
+  \item Do a quick search and list 5 nonproprietary Internet applications and the application-layer protocols that they use.
+    
+  \item For a communication session between a pair of processes, which process is the client, and which is the server? In P2P architecture, can a peer run a server process? Briefly explain.
+    
+  \item What information is used by a process running on one host to identify a process running on another host?
+
+    An IP address allows for the identification of a host; the port number identifies a process running on said host. For example, the port number 80 is generally used for HTTP.
+    
+  \item Suppose you wanted to do a short transaction from a remote client to a server as fast as possible. Would you use UDP or TCP? Why?
+
+    Given that the transaction needs to be short and fast, the User Datagram Protocol (UDP) would be more apt for this situation. Since speed is a priority, the lack of reliability, as well as congestion and flow control would speed up the transfer; however, the transaction would not be guaranteed, as UDP would not recover from the packet loss.
+    
+  \item Consider the following string of ASCII characters that were captured by Wireshark when the browser sent an HTTP GET message (\textit{i}.\textit{e}., this is the actual content of an HTTP GET message). The \textsc{<cr><lf>} represents the carriage return and line-feed characters.
+
+    \begin{flushleft}
+      \textsc{GET \textcolor{red}{/cs453/index.html} \textcolor{green}{HTTP/1.1}<cr><lf>Host: \textcolor{red}{gaia.cs.umass.edu}<cr><lf>\textcolor{purple}{User-Agent: Mozilla/5.0 (Windows;U; Windows NT 5.1; en-US; rv:1.7.2)} Gecko/20040804 Netscape/7.2 (ax) <cr><lf>Accept:ext/xml, application/xml, application/xhtml+xml, text/html;q=0.9, text/plain;q=0.8, image/png,*/*;q=0.5<cr><lf>Accept-Language: en-us, en;q=0.5<cr><lf>Accept-Encoding: zip, deflate<cr><lf>Accept-Charset: ISO-8859-1, utf-8;q=0.7,*;q=0.7<cr><lf>\textcolor{blue}{Keep-Alive: 300}<cr><lf>\textcolor{blue}{Connection:keep-alive}<cr><lf><cr><lf>}
+    \end{flushleft}
+
+    Answer the following questions, indicating where in the HTTP GET message above you find the answer.
+
+    \begin{enumerate}
+
+      \item What is the complete URL of the document requested by the browser?
+
+        The host is represented by the \textsc{gaia.cs.umass.edu} and the specific webpage is \textsc{/cs453/index.html}. Combining these two together, we find that the full URL is \textsc{gaia.cs.umass.edu/cs453/index.html}. This is exhibited in the portions in \textcolor{red}{red text}.
+
+      \item What version of HTTP is the browser running?
+
+        The browser is running HTTP/1.1. This is displayed in the portion in \textcolor{green}{green text}.
+
+      \item Does the browser request a non-persistent or a persistent connection?
+
+        The browser requests a persistent connection. This is evident with the \textsc{keep-alive} connection request, in addition to the time specified to keep the connection alive (300 seconds). The pertinent portion is in \textcolor{blue}{blue text} above.
+
+      \item What type of browser initiates this message? Why is the browser type needed in a HTTP request message?
+
+        The browser is most likely Mozilla Firefox, indicated by the user-agent above. Furthermore, the operating system can be seen as Windows. The relevant portion is in \textcolor{purple}{purple text}.
+
+    \end{enumerate}
+    
+\end{enumerate}
+
+\end{document}
+
