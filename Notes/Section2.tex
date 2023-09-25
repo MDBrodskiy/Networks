@@ -842,6 +842,286 @@
 
     \end{itemize}
 
+  \item HTTP Cookies: Comments
+
+    \begin{itemize}
+
+      \item What cookies can be used for:
+
+        \begin{itemize}
+
+          \item Authorization
+
+          \item Shopping carts
+
+          \item Recommendations
+
+          \item User session state (Web e-mail)
+
+        \end{itemize}
+
+      \item Challenge: How to keep state
+
+        \begin{itemize}
+
+          \item Protocol endpoints: maintain state at sender/receiver over multiple transactions
+
+          \item Cookies: HTTP messages carry state
+
+        \end{itemize}
+
+      \item Cookies and Privacy:
+
+        \begin{itemize}
+
+          \item Cookies permit sites to learn a lot about you on their site
+
+          \item Third party persistent cookies (tracking cookies) allow common identity (cookie value) to he tracked across multiple web sites
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Web Caches (Proxy Server)
+
+    \begin{itemize}
+
+      \item Goal: satisfy client request without involving origin server
+
+      \item User configures browser to point to a web cache
+
+      \item Browser sends all HTTP requests to cache
+
+        \begin{itemize}
+
+          \item If object in cache, cache returns object to client
+
+          \item Else cache requests object from origin server, caches received object, then returns object to client
+
+        \end{itemize}
+
+      \item Web cache acts as both client and server
+
+        \begin{itemize}
+
+          \item Server for original requesting client
+
+          \item Client to origin server
+
+        \end{itemize}
+
+      \item Typically, cache is installed by ISP (university, company, residential ISP)
+
+      \item Why Web Caching?
+
+        \begin{itemize}
+
+          \item Reduce response time for client request
+
+            \begin{itemize}
+
+              \item Cache is closer to client
+
+            \end{itemize}
+
+          \item Reduce traffic on an institution's access link
+
+          \item Internet is dense with caches
+
+            \begin{itemize}
+
+              \item Enables ``poor'' content providers to more effectively deliver content
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Conditional GET
+
+    \begin{itemize}
+
+      \item Web cache: specify date of cached copy in HTTP request:
+
+        $$\text{\textbf{If-modified-since: $<$date$>$}}$$
+
+      \item Server: response contains no object if cached copy is up-to-date
+
+        $$\text{\textbf{HTTP/1.1 304 Not Modified}}$$
+
+      \item Goal: don't send object if cache has up-to-date cached version
+
+        \begin{itemize}
+
+          \item No object transmission delay
+
+          \item Lower link utilization
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item E-Mail
+
+    \begin{itemize}
+
+      \item Three major components
+
+        \begin{enumerate}
+
+          \item User agents (UA)
+
+            \begin{itemize}
+
+              \item A.k.a. ``mail reader''
+
+              \item Composing, editing, reading mail messages
+
+              \item E.g., Outlook, iPhone mail client
+
+              \item Outgoing, incoming messages stored on server
+
+            \end{itemize}
+
+          \item Mail servers
+
+            \begin{itemize}
+
+              \item Mailbox contains incoming messages for user
+
+              \item Message queue of outgoing (to be sent) mail messages
+
+            \end{itemize}
+
+          \item Simple Mail Transfer Protocol (SMTP)
+
+            \begin{itemize}
+
+              \item Between mail servers to send e-mail messages
+
+                \begin{itemize}
+
+                  \item Client: Sending mail server
+
+                  \item Server: Receiving mail server
+
+                \end{itemize}
+
+              \item SMTP can also be used by user agents to send e-mails to mail server
+
+            \end{itemize}
+            
+        \end{enumerate}
+
+    \end{itemize}
+
+  \item E-Mail: SMTP (RFC 5321)
+
+    \begin{itemize}
+
+      \item Uses TCP to reliably transfer e-mail message from client to server (mail server port 25)
+
+      \item Direct transfer: sending mail server (acting like client) to receiving mail server
+
+      \item After TCP connection is established, three phases of transfer
+
+        \begin{itemize}
+
+          \item Handshaking (greeting)
+
+          \item Transfer of messages
+
+          \item Closure
+
+        \end{itemize}
+
+      \item Command/response interaction (like HTTP)
+
+        \begin{itemize}
+
+          \item Commands: ASCII text
+
+          \item Response: status code and phrase
+
+        \end{itemize}
+
+      \item Messages must be in 7-bit ASCII
+
+      \item Comparison with HTTP:
+
+        \begin{itemize}
+
+          \item HTTP: pull; SMTP: push
+
+          \item Both have ASCII command/response interaction and status codes
+
+          \item HTTP: each object encapsulated in its own response message; SMTP: multiple objects sent in multipart message
+
+          \item SMTP: multiple objects sent in multipart message
+
+          \item SMTP uses presistent connections
+
+          \item SMTP requires message (header \& body) to be in 7-bit ASCII
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item E-Mail Access Protocols
+
+    \begin{itemize}
+
+      \item SMTP: delivery/storage of e-mail messages to receiver's server
+
+      \item E-Mail access protocol: Bob's user agent starts the communication for retrieval from server
+
+        \begin{itemize}
+
+          \item IMAP: Internet Mail Access Protocol (RFC 3501): messages stored on server, IMAP provides retrieval, deletion, folders of stored messages on server
+
+        \end{itemize}
+
+      \item HTTP: Gmail, Hotmail, etc. provides web-based interface to send or to retrieve e-mail messages
+
+    \end{itemize}
+
+  \item Domain Name System (DNS)
+
+    \begin{itemize}
+
+      \item People have many identifiers:
+
+        \begin{itemize}
+
+          \item SSN, name, passport number, etc.
+
+        \end{itemize}
+
+      \item Internet hosts, routers
+
+        \begin{itemize}
+
+          \item IP addresss — used for addressing packets
+
+          \item Name, like \textsc{cs.umass.edu} is used by humans
+
+        \end{itemize}
+
+      \item Distributed database implemented in hierarchy of many name servers
+
+      \item Application-layer protocol: hosts and name servers communicate to resovle names (address/name translation)
+
+        \begin{itemize}
+
+          \item Note: core Internet function, implemented as application-layer protocol
+
+          \item Complexity at network's ``edge''
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
