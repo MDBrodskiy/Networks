@@ -1122,6 +1122,360 @@
 
     \end{itemize}
 
+  \item DNS Services
+
+    \begin{itemize}
+
+      \item Hostname to IP address translation
+
+      \item Host aliasing
+
+        \begin{itemize}
+
+          \item Canonical, alias names
+
+        \end{itemize}
+
+      \item Mail server aliasing
+
+      \item Load distribution
+
+        \begin{itemize}
+
+          \item Replaced Web servers: many IP addresses correspond to one name
+
+        \end{itemize}
+
+      \item Why not centralize DNS?
+
+        \begin{itemize}
+
+          \item Single point of failure
+
+          \item Traffic volume
+
+          \item Distant centralized database
+
+          \item Maintenance
+
+          \item It doesn't scale!
+
+        \end{itemize}
+
+      \item Client wants IP accress for Amazon: \nth{1} approximation:
+
+        \begin{itemize}
+
+          \item Query sent to root server to find .com DNS server (root)
+
+          \item Query sent to .com DNS server to get amazon.com DNS server (top level domain)
+
+          \item Query sent to amazon.com DNS server to get IP address for www.amazon.com (authoritative)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Local DNS Server
+
+    \begin{itemize}
+
+      \item Local DNS Server — helps hosts to resolve a query
+
+      \item Does not strictly belong to hierarchy
+
+      \item Each ISP or institution (residential ISP, company, university) has one
+
+        \begin{itemize}
+
+          \item Also called ``default name server''
+
+        \end{itemize}
+
+      \item When host makes DNS query, query is sent to its local DNS server
+
+        \begin{itemize}
+
+          \item Has local cache of recent name-to-address translation pairs (but may be out of date!)
+
+          \item Acts as proxy, forwards query to hierarchy
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item DNS: Root Name Servers
+
+    \begin{itemize}
+
+      \item Official, contact-of-last-resort by name servers that cannot resolve name
+
+      \item Root name servers provide the IP addresss of TLD servers
+
+      \item Incredibly important Internet function
+
+        \begin{itemize}
+
+          \item Internet couldn't function without it!
+
+        \end{itemize}
+
+      \item ICANN (Internet Corporation for Assigned Names and Numbers) manages root DNS domain
+
+      \item 13 logical root name ``servers'' worldwide, each ``server'' replicated many times (about 200 servers in the US)
+
+    \end{itemize}
+
+  \item TLD and Authoritative Servers
+
+    \begin{itemize}
+
+      \item Top-level domain (TLD) servers:
+
+        \begin{itemize}
+
+          \item Responsible for .com, .org, .net, .edu, etc.
+
+          \item Network solutions maintains servers for .com, .net TLD
+
+          \item Educause for .edu TLD
+
+        \end{itemize}
+
+      \item Authoritative DNS servers:
+
+        \begin{itemize}
+
+          \item Organization's own DNS server(s), providing authoritative hostname to IP mappings for organizations named hosts
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item DNS Name Resolution: Iterated Query
+
+    \begin{itemize}
+
+      \item Example: host at \textsc{engineering.nyu.edu} wants IP address for \textsc{gaia.cs.umass.edu}
+
+      \item Iterated Query
+
+        \begin{itemize}
+
+          \item Contacted server replies with name of server to contact
+
+          \item ``I don't know this name, but ask this server''
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item DNS Name Resolution: Recursive Query
+
+    \begin{itemize}
+
+      \item Same situation as above
+
+      \item Recursive Query
+
+        \begin{itemize}
+
+          \item Puts burden of name resolution on contacted name server
+
+          \item Heavy load at upper levels of hierarchy?
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Caching, Updating DNS Records
+
+    \begin{itemize}
+
+      \item Once (any) local DNS server learns mapping, it caches mapping
+
+        \begin{itemize}
+
+          \item Cache entries timeout (disappear) after some time (TTL)
+
+          \item TLD servers typically cached in local name servers
+
+            \begin{itemize}
+
+              \item Thus, root name servers not often visited
+
+            \end{itemize}
+
+          \item Cached entries may be out-of-date (best effort name-to-address translation)
+
+            \begin{itemize}
+
+              \item If name host changes IP address, may not be known Internet-wide until all TTLs expire
+
+            \end{itemize}
+
+          \item Update/notify mechanisms proposed IETF standard
+
+            \begin{itemize}
+
+              \item RFC 2136
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item DNS Records
+
+    \begin{itemize}
+
+      \item DNS: distributed database storing Resource Records (RR)
+
+        $$\boxed{\text{RR Format: \textsc{(name, value, type, ttl)}}}$$
+
+      \item \textsc{type=A}
+
+        \begin{itemize}
+
+          \item \textsc{name} is hostname
+
+          \item \textsc{value} is IP address
+
+        \end{itemize}
+
+      \item \textsc{type=NS}
+
+        \begin{itemize}
+
+          \item \textsc{name} is domain (e.g., foo.com)
+
+          \item \textsc{value} is hostname of authoritative name server for this domain
+
+        \end{itemize}
+
+      \item \textsc{type=CNAME}
+
+        \begin{itemize}
+
+          \item \textsc{name} is alias name for some ``canonical'' (the real) name
+
+            \begin{itemize}
+
+              \item \textsc{www.ibm.com} is really \textsc{servereast.backup2.ibm.com}
+
+            \end{itemize}
+
+          \item \textsc{value} is canonical name
+
+        \end{itemize}
+
+      \item \textsc{type=MX}
+
+        \begin{itemize}
+
+          \item \textsc{name} is a mail domain
+
+          \item \textsc{value} is hostname of mail server associated with \textsc{name}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item DNS Protocol Messages
+
+    \begin{itemize}
+
+      \item DNS query and reply messages, both have same format:
+
+        \begin{itemize}
+
+          \item Message header:
+
+            \begin{itemize}
+
+              \item Identification — 16 bit number for query; reply to query uses same number
+
+              \item Flags — query or reply; recursion desired/available; if reply is authoritative
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Inserting Records into DNS
+
+    \begin{itemize}
+
+      \item DNS registrar: commercial entity that verifies the uniqueness of a domain name
+
+        \begin{itemize}
+
+          \item Enters the domain name into the DNS database
+
+          \item Collects a small fee from you for its services
+
+        \end{itemize}
+
+      \item There are many registrars that compete for customers
+
+      \item The ICAAN accredits the various registrars
+
+      \item Example: a new start-up ``Network Utopia''
+
+      \item Register domain name \textsc{networkutopia.com} at some DNS registrat (e.g., Network Solutions)
+
+        \begin{itemize}
+
+          \item Provide names, IP addresses of authoritative name server (primary and secondary)
+
+          \item Registrar inserts NS and A type RRs into .com TLD server for each authoritative name server:
+
+            $$\boxed{\text{\textsc{(networkutopia.com, adns1.networkutopia.com, NS)}}}$$
+            $$\boxed{\text{\textsc{(adns1.networkutopia.com, 212.212.212.1, A)}}}$$
+
+        \end{itemize}
+
+      \item Create authoritative server locally with IP address \textsc{212.212.212.1} and enter:
+
+        \begin{itemize}
+
+          \item Type A record for your web server: \textsc{(www.networkutopia.com, ``IP address'', A)}
+
+          \item Type MX record for your mail server:
+
+            $$\boxed{\text{\textsc{(networkutopia.com, mail.networkutopia.com, MX)}}}$$
+            $$\boxed{\text{\textsc{(mail.networkutopia.com, "IP address", A)}}}$$
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Peer-To-Peer (P2P) Architecture 
+
+    \begin{itemize}
+
+      \item No always-on server
+
+      \item Arbitrary end systems directly communicate
+
+      \item Peers are intermittently connected and change IP addresses
+
+      \item Examples:
+
+        \begin{itemize}
+
+          \item File distribution (BitTorrent)
+
+          \item Streaming (KanKan)
+
+          \item VoIP (Skype)
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
