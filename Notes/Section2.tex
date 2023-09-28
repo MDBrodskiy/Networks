@@ -1476,6 +1476,304 @@
 
     \end{itemize}
 
+  \item P2P File Distribution: BitTorrent
+
+    \begin{itemize}
+
+      \item File divided into 256kb chunks
+
+      \item Peers in torrent send/receive file chunks
+
+      \item Tracker: tracks peers participating in torrent
+
+      \item Torrent: group of peers exchanging chunks of a file
+
+      \item Peer joining torrent:
+
+        \begin{itemize}
+
+          \item Has no chunks, but will accumulate them over time from other peers
+
+          \item Registers with tracker to get list of peers, connects to subset of peers (``neighbors'')
+
+        \end{itemize}
+
+      \item While downloading, peer uploads chunks to other peers
+
+      \item Peer may change peers with whom it exchanges chunks
+
+      \item Churn: peers may come and gp
+
+      \item Requesting Chunks:
+
+        \begin{itemize}
+
+          \item At any given time, different peers have different subsets of file chunks
+
+          \item Periodically, a certain peer asks each peer for list of chunks they have
+
+          \item The peer then requests missing chunks from peers, rarest first
+
+        \end{itemize}
+
+      \item Sending Chunks: tit-for-tat
+
+        \begin{itemize}
+
+          \item A peer sends chunks to those four peers currently sending them chunks at highest rate
+
+            \begin{itemize}
+
+              \item Other peers are choked by the peer (do not receive chunks)
+
+              \item Re-evaluate top 4 every 10 seconds
+
+            \end{itemize}
+
+          \item Every 30 seconds randomly ``unchoke'' another peer
+
+          \item Newly chosen peer may join top 4
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Video Streaming and CDNs: Context
+
+    \begin{itemize}
+
+      \item Stream video traffic: major consumer of internet bandwidth
+
+        \begin{itemize}
+
+          \item Netflix, YouTube, Amazon Prime: 80\% of residential ISP traffic
+
+        \end{itemize}
+
+      \item Challenge: scale — how to reach about 1B users?
+
+        \begin{itemize}
+
+          \item Single mega-video server won't work
+
+        \end{itemize}
+
+      \item Challenge heterogeneity
+
+        \begin{itemize}
+
+          \item Different users have different capabilities
+
+        \end{itemize}
+
+      \item Solution: distributed, application-level infrastructure
+
+    \end{itemize}
+
+  \item Multimedia: Video
+
+    \begin{itemize}
+
+      \item Video: sequence of images displayed at constant rate
+
+        \begin{itemize}
+
+          \item Like 24 frames per second
+
+        \end{itemize}
+
+      \item Digital image: array of pixels
+
+        \begin{itemize}
+
+          \item Each pixel represented by bits
+
+        \end{itemize}
+
+      \item Coding: use redundancy within and between images to decrese \# used to encode image
+
+        \begin{itemize}
+
+          \item Spatial (within image) — Instead of sending $N$ values of same color (all purple) send only two values: color value (purple) and number of repeated values ($N$)
+
+          \item Temporal (from one image to the next) — Instead of sending complete frame at $i+1$, send only differences from frame $i$
+
+        \end{itemize}
+
+      \item CBR (Constant bit rate): video encoding rate fixed
+
+      \item VBR (Variable bit rate): video encoding rate changes as amount of spatial, temporal coding changes
+
+      \item Examples:
+
+        \begin{itemize}
+
+          \item MPEG1 (CD-ROM) 1.5 Mbps
+
+          \item MPEG2 (DVD) 3-6 Mbps
+
+          \item MPEG4 (Used in Internet) 64kbps-12Mbps
+
+        \end{itemize}
+
+      \item Main challenges:
+
+        \begin{itemize}
+
+          \item Server-to-client rate will varyover time, with changing network congestion levels (in house, in access network, in network core, at video server)
+
+          \item Packet loss and delay due to congestion will delay playout, or result in poor video quality
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Streaming stored video
+
+    \begin{itemize}
+
+      \item Continuous playout constraint: once client playout begins, playback must match original timing
+
+        \begin{itemize}
+
+          \item But network delays are variable (jitter), so we will need client-side buffer to match playout requirements
+
+        \end{itemize}
+
+      \item Client-side buffering and playout delay: compensate for network-added delay and jitter
+
+    \end{itemize}
+
+  \item Streaming Multimedia: DASH
+
+    \begin{itemize}
+
+      \item DASH: Dynamic, Adaptive Streaming over HTTP
+
+      \item Server:
+
+        \begin{itemize}
+
+          \item Divides video file into multiple chunks
+
+          \item Each chunk stored, encoded at different rates
+
+          \item Manifest file: provides URLs for different chunks
+
+        \end{itemize}
+
+      \item Client:
+
+        \begin{itemize}
+
+          \item Periodically measures server-to-client transmission rate
+
+          \item Consulting manifest, requests one chunk at a time
+
+            \begin{itemize}
+
+              \item Chooses maximum coding rate sustainable given current transmission rate
+
+              \item Can choose different coding rates at different points in time (depending on available transmission rate at time)
+
+            \end{itemize}
+
+          \item ``Intelligence'' at client: client determines:
+
+            \begin{itemize}
+
+              \item When to request chunk (so that buffer starvation, or overflow, does not occur)
+
+              \item What encoding rate to request (higher quality when more transmission rate available)
+
+              \item Where to request chunk (can request from URL server that is “close” to client or has high available transmission rate)
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Content Distribution Networks (CDNs)
+
+    \begin{itemize}
+
+      \item Challenge: how to stream content (selected from millions of videos) to hundreds of thousdands of simultaneous users?
+
+      \item Option 1: single, large ``mega-server''
+
+        \begin{itemize}
+
+          \item Single point of failure
+
+          \item Point of network congestion
+
+          \item Long path to distant clients
+
+          \item Multiple copies of video sent over outgoing link
+
+          \item Doesn't scale!
+
+        \end{itemize}
+
+      \item Option 2: store/server multiple copies of videos at multiple geographically distributed sites (CDN)
+
+        \begin{itemize}
+
+          \item Enter deep: push CDN servers deep into many networks of access ISPs
+
+            \begin{itemize}
+
+              \item Close to users
+
+              \item Akamai, 240000 servers deployed in more than 120 countries
+
+            \end{itemize}
+
+          \item Bring home: smaller number (10's) of larger clusters in POPs (Points of Presence) near (but not within) access ISPs
+
+            \begin{itemize}
+
+              \item Typically, POPs are Internet Exchange Points (IXPs)
+
+              \item Used by Limelight
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item CDN: stores copies of content at CDN nodes
+
+      \item Subscriber requests content from CDN
+
+        \begin{itemize}
+
+          \item Directed to nearby copy, retrieves content
+
+          \item May choose different copy if network path congested
+
+        \end{itemize}
+
+      \item Over-the-top (OTT)
+
+        \begin{itemize}
+
+          \item OTT challenges: coping with a congested Internet
+
+            \begin{itemize}
+
+              \item From which CDN node to retrieve content?
+
+              \item Viewer behavior in presence of congestion?
+
+              \item What content to place in which CDN node?
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
