@@ -69,7 +69,10 @@
       \item Suppose the file is 4 million bytes. The first bit arrives at the receiver at a given time. From this time, how long will it take to receive all the file in Host B approximately?
 
         $$4,000,000[\text{bytes}]=4,000[\text{kb}]=4[\text{Mb}]$$
-        $$\frac{4}{1.166\bar{6}}\approx3.43[\si{\second}]$$
+
+        To transfer, this file needs to go through each link, and we need to sum the times of each link:
+
+        $$\frac{4}{.5}+\frac{4}{2}+\frac{4}{1}=14[\si{\second}]$$
 
       \item Repeat (a) and (b), but now with $R_2$ reduced to $100$ kbps.
 
@@ -79,7 +82,7 @@
 
         This makes the time to file receipt:
 
-        $$\frac{4}{.533\bar{3}}=7.5[\si{\second}]$$
+        $$\frac{4}{.5}+\frac{4}{.1}+\frac{4}{1}=52[\si{\second}]$$
 
     \end{enumerate}
     
