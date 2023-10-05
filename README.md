@@ -21,7 +21,8 @@
 
 * [**Notes**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/)
   * [**Introduction**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section1.pdf)
-  * [**The Application Layer**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section1.pdf)
+  * [**The Application Layer**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section2.pdf)
+  * [**The Transport Layer**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section3.pdf)
 * [**Homework**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/)
   * [**Conceptual Homework 1**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/Homework1.pdf)
   * [**Programming Homework 1**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/EECE2540_002937644_PPS.py)
