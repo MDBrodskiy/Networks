@@ -1,0 +1,278 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Written By Michael Brodskiy
+% Class: Fundamentals of Networks
+% Professor: E. Bernal Mor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Includes.tex}
+
+\title{The Transport Layer}
+\date{\today}
+\author{Michael Brodskiy\\ \small Professor: E. Bernal Mor}
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+
+  \item Transport Services and Protocols
+
+    \begin{itemize}
+
+      \item Provide logical communication between application processes running on different hosts
+
+      \item Transport protocols actions in end systems:
+
+        \begin{itemize}
+
+          \item Sender: breaks application messages into segments, passes to Network layer
+
+          \item Receiver: reassembles segments into messages, passes to Application layer
+
+        \end{itemize}
+
+      \item Two transport protocols available to internet applications
+
+        \begin{enumerate}
+
+          \item TCP
+
+          \item UDP
+
+        \end{enumerate}
+
+    \end{itemize}
+
+  \item Transport vs. Network Layer
+
+    \begin{itemize}
+
+      \item Network layer: logical communication between two hosts
+
+      \item Transport layer: logical communication between processes
+
+        \begin{itemize}
+
+          \item Relies on, enhances, network layer services
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Two Internet Transport Protocols
+
+    \begin{itemize}
+
+      \item TCP: Transmission Control Protocol
+
+        \begin{itemize}
+
+          \item Reliable, in-order delivery
+
+          \item Congestion Control
+
+          \item Flow Control
+
+          \item Connection set-up
+
+        \end{itemize}
+
+      \item UDP: User Datagram Protocol
+
+        \begin{itemize}
+            
+          \item Unreliable, unordered delivery
+
+          \item No-frills extension of ``best-effort'' IP
+
+        \end{itemize}
+
+      \item Services not available:
+
+        \begin{itemize}
+
+          \item Delay guarantees
+
+          \item Throughput guarantees
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Multiplexing/Demultiplexing
+
+    \begin{itemize}
+
+      \item Multiplexing at sender: Handle data from multiple sockets, add transport header (later used for demultiplexing)
+
+      \item How demultiplexing works
+
+        \begin{itemize}
+
+          \item Host receives IP packets
+
+            \begin{itemize}
+
+              \item Each packet has source IP address, destination IP address
+
+              \item Each packet carries one transport-layer segment
+
+              \item Each segment has source, destination port number
+
+            \end{itemize}
+
+          \item Host uses IP address and port numbers to direct segment to appropriate socket
+
+        \end{itemize}
+
+      \item Connectionless Demultiplexing
+
+        \begin{itemize}
+
+          \item Create a socket in the client, the Transport layer automatically assigns a host-local port number to the socket
+
+          \item When data is sent into UDP socket, must specify
+
+            \begin{itemize}
+                
+              \item Destination IP address
+                
+              \item Destination port number
+
+            \end{itemize}
+
+          \item When a host receives UDP segment, the Transport layer:
+
+            \begin{itemize}
+
+              \item Checks destination port number in segment
+
+              \item Directs UDP segment to socket with that port number
+
+            \end{itemize}
+
+          \item IP datagrams with same destination port number but different source IP addresses and/or source port numbers will be directed to same socket at destination
+
+        \end{itemize}
+
+      \item Connection-Oriented Demultiplexing
+
+        \begin{itemize}
+
+          \item TCP socket identified by 4-tuple:
+
+            \begin{itemize}
+
+              \item Source IP address
+
+              \item Source port number
+
+              \item Destination IP address
+
+              \item Destination port number
+
+            \end{itemize}
+
+          \item Demultiplexing receiver users all four values to direct segment to appropriate socket
+
+          \item A server may support simultaneous TCP sockets:
+
+            \begin{itemize}
+
+              \item Each socket identified by its own 4-tuple
+
+              \item Each socket associated with a different connecting client
+
+            \end{itemize}
+
+          \item Note: the TCP server has a welcoming socket
+
+            \begin{itemize}
+
+              \item Each time a client initiates a TCP connection to the server, a new socket is created for this connection
+
+              \item To support $n$ simultaneous connections, the server would need $n+1$ sockets
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Connectionless Transport: UDP
+
+    \begin{itemize}
+
+      \item ``No frills'', ``bare bones'' Internet transport protocol
+
+      \item ``Best effort'' service, UDP segments may be:
+
+        \begin{itemize}
+
+          \item Lost
+
+          \item Delivered out-of-order to application
+
+        \end{itemize}
+
+      \item Connectionless:
+
+        \begin{itemize}
+
+          \item No handshaking between UDP sender, receiver
+
+          \item Each UDP segment handled independently of others
+
+        \end{itemize}
+
+      \item Why is there a UDP?
+
+        \begin{itemize}
+
+          \item No connection establishment (which can add RTT delay)
+
+          \item Simple: no connection state at sender, receiver
+
+          \item Small header size
+
+          \item No congestion control
+
+            \begin{itemize}
+
+              \item UDP can blast away as fast as desired
+
+              \item It can function in the face of congestion
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item UDP used in:
+
+        \begin{itemize}
+
+          \item Streaming multimedia apps (loss tolerant, rate sensitive)
+
+          \item DNS
+
+          \item HTTP/3
+
+        \end{itemize}
+
+      \item If reliable transfer or other services needed over UDP (like in HTTP/3)
+
+        \begin{itemize}
+
+          \item Add needed reliability at application layer
+
+          \item Add congestion control at application layer
+
+        \end{itemize}
+
+    \end{itemize}
+
+\end{itemize}
+
+\end{document}
+
