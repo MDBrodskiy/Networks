@@ -10,12 +10,23 @@ class PacketClass:
 	def __init__(self, packet_t):
 		#add initialization code here 
 		self.ParityValid = -1
+		self.packet_id = packet_t[0]
+		self.dest = packet_t[1]
+		self.src = packet_t[2]
+		self.data = packet_t[3]
+		self.parity = packet_t[4]
 	def check_parity(self, data, rcvd_parity):
 		#add your code here 
-		pass
+		pass # Check if leftover modulo 2 matches parity
+		if (str(data.count("1") % 2) == rcvd_parity):
+		   self.ParityValid = True # Make true if correct
+		   return True 
+		self.ParityValid = False # False otherwise
+		return False
 	def parsed_packet(self):
 		#add your code here 
 		pass
+		return "Received Packet Number {s1} from node {s2}. Parity Check returns {s3}".format(s1=self.packet_id, s2=self.src, s3=self.check_parity(self.data, self.parity)) # Print given values
 
 
 # (Add your comments here)
@@ -43,7 +54,7 @@ def problem_three( integer_to_sum_to ):
 	# (Add your code here)
 	if (type(integer_to_sum_to) != int or integer_to_sum_to < 0):
 		return None # Checks for correct inputs, returns None if wrong
-	return sum(range(integer_to_sum_to)) # Returns the sum from 0 to integer_to_sum_to
+	return sum(range(integer_to_sum_to + 1)) # Returns the sum from 0 to integer_to_sum_to
 
 # (Add your comments here)
 # Returns a list of a single copy of each item in a list if both inputs are lists, otherwise None
@@ -86,19 +97,63 @@ def problem_seven( hex_string ):
 def problem_eight( list_of_lists ):
 	pass
 	# (Add your code here)
+	if (type(list_of_lists) != list): # Checks for list input
+		return None # Returns None if not list
+	return [i[0:-1] + [i[-1] * 2] for i in list_of_lists] # Returns same list with doubled last column
 
 # (Add your comments here)
 def problem_nine( list_of_email_addresses ):
 	pass
 	# (Add your code here)
+	if (type(list_of_email_addresses) != list): # Check for list input
+		return None # Return None if not list
+	return list(set([a.split("@")[1] for a in list_of_email_addresses if (".com" in a and "@" in a and not any(i.isdigit() for i in a.split("@")[1]))])) # Filters domains from valid addresses
 
 def problem_ten( packet_t ):
 	# add your code here 
 	pass
+	pkt_o = PacketClass(packet_t) # Create class instance
+	pkt_o.check_parity(pkt_o.data,pkt_o.parity) # Check parity
+	return pkt_o.parsed_packet() # Return message about parse
 
 # Program entry point.
 if __name__ == '__main__':
 	pass
 	# (Add your code here)
-
-print(problem_eight([[1,2,3], [4,5,6], [7,8,9]]))
+	print("\nProblem 1:")
+	print(problem_one('Hello World!'))
+	print("\nProblem 2:")
+	print(problem_two(8, [1, 2, 3, 4, 5])) # Should be False
+	print(problem_two(5, [1, 2, 3, 4, 5])) # Should be True
+	print(problem_two(5, [])) # Should be False
+	print(problem_two([1,2,3], 5)) # Should be None
+	print("\nProblem 3:")
+	print(problem_three(6)) # Should be 21
+	print(problem_three("6")) # Should be None
+	print("\nProblem 4:")
+	print(problem_four([1, 2, 3], [2, 3, 4])) # Should be [1, 2, 3, 4]
+	print(problem_four([], [2, 3, 4])) # Should be [2, 3, 4]
+	print(problem_four(5, [2, 3, 4])) # Should be None
+	print("\nProblem 5:")
+	print(problem_five(3)) # Should be 28.27433388
+	print(problem_five(3.0)) # Should be 28.27433388
+	print(problem_five("3.0")) # Should be None
+	print("\nProblem 6:")
+	print(problem_six("MyData.csv")) # Should be [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+	print(problem_six(7)) # Should be None
+	print(problem_six("FalseFile")) # Should be None
+	print("\nProblem 7:")
+	print(problem_seven('48656c6c6f20576f726c6421')) # Should be Hello World!
+	print(problem_seven(None)) # Should be None
+	print("\nProblem 8:")
+	print(problem_eight([[1, 2, 3], [4, 5, 6], [7, 8, 9]])) # Should be [[1, 2, 6], [4, 5, 12], [7, 8, 18]]
+	print(problem_eight([[1, 2], [4, 5, 6], [7, 8, 9]])) # Should be [[1, 4], [4, 5, 12], [7, 8, 18]]
+	print(problem_eight([[1, 2], [3, 4]])) # Should be [[1, 4], [3, 8]]
+	print(problem_eight(None)) # Should be None
+	print("\nProblem 9:")
+	print(problem_nine(['cats@gmail.com','Hello World!','dogs@gmail.com','cows@yahoo.com'])) # Should be ['yahoo.com', 'gmail.com']
+	print(problem_nine(['cats@g10mail.com','Hello World!','dogs@gma7il.com','cows@yahoo.com'])) # Should be ['yahoo.com']
+	print(problem_nine(['None'])) # Should be []
+	print(problem_nine(None)) # Should be []
+	print("\nProblem 10:")
+	print(problem_ten(("2","10", "5", "01100101011000101011001001110110", "0")))
