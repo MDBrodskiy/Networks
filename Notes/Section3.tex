@@ -272,6 +272,190 @@
 
     \end{itemize}
 
+  \item Internet Checksum
+
+    \begin{itemize}
+
+      \item Goal: detect ``errors'' (\textit{e}.\textit{g}.\ flipped bits) in received segment —  optional if UDP segment is encapsulated in IPv4 packet: carries all-zeros if unused
+
+      \item Sender:
+
+        \begin{itemize}
+
+          \item Treat segment contents, including UDP header fields and IP addresses, as sequence of 16-bit words
+
+          \item Checksum: ones complement of the ones complement sum of all 16-bit words
+
+          \item Sender puts checksum value into UDP checksum field
+
+        \end{itemize}
+
+      \item Receiver — error detected?
+
+        \begin{itemize}
+
+          \item All 16-bit words are added, including checksum
+
+          \item Result = $1111111111111111\to$ no error 
+
+            \begin{itemize}
+
+              \item But maybe errors, nonetheless?
+
+            \end{itemize}
+
+          \item Result $\neq1111111111111111\to$ Error
+
+            \begin{itemize}
+
+              \item Do not recover from the error: discard segment or pass damaged data with a warning
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Principles of Reliable Data Transfer
+
+    \begin{itemize}
+
+      \item Consider only unidirectional data transfer
+
+      \item But control information will flow in both directions
+
+      \item Incrementally develop sender, receiver sides of reliable data transfer protocol (rdt)
+
+    \end{itemize}
+
+  \item Components of Error Recovery
+
+    \begin{itemize}
+
+      \item Checksum to detect bit errors
+
+      \item Acknowledgments (ACKs): receiver explicitly tells sender the packet received is OK
+
+      \item Negative Acknowledgments (NAKs): receiver explicitly tells sender that pack had errors
+
+      \item Sender retransmits packet on receipt of NAK
+
+      \item What happens if ACK/NAK is corrupted?
+
+        \begin{itemize}
+
+          \item Sender doesn't know what happened at receiver
+
+          \item Can't just retransmit, possible duplicate
+
+        \end{itemize}
+
+      \item Sender:
+
+        \begin{itemize}
+
+          \item Sequence number added to packet
+
+          \item Two sequence numbers will suffice
+
+          \item Must check if received ACK/NAK corrupted
+
+          \item Sender must ``remember'' whether last sent packet had sequence number of 0 or 1
+
+        \end{itemize}
+
+      \item Receiver:
+
+        \begin{itemize}
+
+          \item Must check if received packet is duplicate
+
+            \begin{itemize}
+
+              \item Receiver must remember whether 0 or 1 is expected packet sequence number
+
+            \end{itemize}
+
+          \item If duplicate, send ACK to force sender to move on
+
+          \item Note: receiver can not know if its last NAK/ACK received ok at sender
+
+        \end{itemize}
+
+      \item A similar protocol without NAKs may be developed:
+
+        \begin{itemize}
+
+          \item Instead of NAK, receiver sends ACK for last packet received OK
+
+            \begin{itemize}
+
+              \item Receiver must explicitly include in the ACK the sequence number of packet being ACKed
+
+            \end{itemize}
+
+          \item Duplicate ACK at sender results in same action as NAK: retransmit current packet
+
+          \item TCP uses this approach to be NAK-free
+
+        \end{itemize}
+
+      \item This protocol may be further developed:
+
+        \begin{itemize}
+
+          \item Approach: sender waits ``reasonable'' amount of time for ACK
+
+          \item Only retransmit if no expected ACK received in this time
+
+          \item If packet (or ACK) just delayed (not lost):
+
+            \begin{itemize}
+
+              \item Retransmission will be duplicate, but sequence number already handles this
+
+              \item Receiver must specify sequence number of packet being ACKed
+
+            \end{itemize}
+
+          \item Requires countdown timer to interrupt after “reasonable” amount of time (timeout)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Utility
+
+    \begin{itemize}
+
+      \item For a ``Stop and Wait'' approach, the utility can be defined as:
+
+        $$U_{sender}=\frac{L/R}{RTT+(L/R)}$$
+
+      \item Thus, the performance of stop and wait would not be food if the RTT is high
+
+      \item Stop and wait limits performance of underlying infrastructure
+
+    \end{itemize}
+
+  \item Pipelined Protocols
+
+    \begin{itemize}
+
+      \item Pipelining: sender allows multiple, ``in-flight'', yet-to-be-acknowledged packets
+
+        \begin{itemize}
+
+          \item Range of sequence numbers must be increaseL $k$-bit sequence number in packet header
+
+          \item Buffering at sender and/or receiver
+
+        \end{itemize}
+
+      \item Two generic forms of pipelined protocols: Go-Back-N (GBN) and selective repeat
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
