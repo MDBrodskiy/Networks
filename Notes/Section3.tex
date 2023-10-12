@@ -456,6 +456,120 @@
 
     \end{itemize}
 
+  \item Go-Back-N
+
+    \begin{itemize}
+
+      \item A ``sliding window'' protocol
+
+      \item Sender window: $N$ consecutive sequence numbers allowed for sent, unacknowledged packets
+
+        \begin{itemize}
+
+          \item Sender window size is $N$
+
+        \end{itemize}
+
+      \item Cumulative ACK: ACK($n$) $\to$ Acknowledges all packets up to $N$, including sequence number $n$
+
+        \begin{itemize}
+
+          \item On receiving ACK($n$) $\to$ move window forward to begin at $n+1$
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Selective Repeat
+
+    \begin{itemize}
+
+      \item Sender Window
+
+        \begin{itemize}
+
+          \item $N$ consecutive sequence numbers
+
+          \item Limits sequence numbers of sent, unacknowledged packets
+
+          \item Sender window size is $N$
+
+        \end{itemize}
+
+      \item Sender maintains a timer for each unACKed packet
+
+      \item Sender times-out and retrsnmits individually unACKed packets
+
+      \item Receiver Window
+
+        \begin{itemize}
+
+          \item $N$ consecutive sequence number
+
+          \item Limits sequence numbers of received packets that are accepted
+
+          \item Receiver window size is $N$
+
+        \end{itemize}
+
+      \item Buffers packets, as needed for eventual in-order delivery to upper layer
+
+      \item Receiver individually acknowledges all correctly received packets
+
+    \end{itemize}
+
+  \item Connection-Oriented Transport: TCP
+
+    \begin{itemize}
+
+      \item Point-to-point: one sender, one receiver
+
+      \item Reliable, in-order byte stream:
+
+        \begin{itemize}
+
+          \item No ``message boundaries''
+
+        \end{itemize}
+
+      \item Full duplex data:
+
+        \begin{itemize}
+
+          \item Bi-directional data flow in same connection
+
+          \item MSS: maximum segment size
+
+        \end{itemize}
+
+      \item Cumulative ACKs
+
+      \item Pipelining:
+
+        \begin{itemize}
+
+          \item TCP congestion and flow control set the window size
+
+        \end{itemize}
+
+      \item Connection-oriented
+
+        \begin{itemize}
+
+          \item Handshaking (exchange of control messages) initializes sender and receiver state before data exchange
+
+        \end{itemize}
+
+      \item Flow control
+
+        \begin{itemize}
+
+          \item Sender will not overwhelm receiver
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
