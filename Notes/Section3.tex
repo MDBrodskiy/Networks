@@ -570,6 +570,204 @@
 
     \end{itemize}
 
+  \item TCP Sequence Numbers and ACKs
+
+    \begin{itemize}
+
+      \item Sequence Numbers:
+
+        \begin{itemize}
+
+          \item Byte stream ``number'' of first byte in segment data
+
+        \end{itemize}
+
+      \item Acknowledgments:
+
+        \begin{itemize}
+
+          \item Piggbacked ACK on the other-direction data segment
+
+          \item Sequence number of the next byte expected from other side
+
+          \item Cumulative ACK
+
+        \end{itemize}
+
+      \item How receiver handles out-of-order segments?
+
+        \begin{itemize}
+
+          \item TCP specifications does not say — up to implementer
+
+          \item In practice: buffer out-of-order segments
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item TCP RTT and Timeout
+
+    \begin{itemize}
+
+      \item How to set TCP timeout value?
+
+        \begin{enumerate}
+
+          \item Longer than RTT
+
+            \begin{itemize}
+
+              \item But RTT varies
+
+            \end{itemize}
+
+          \item Too short: premature timeout, unnecessary retransmissions
+
+          \item Too long: slow reaction to segment loss
+
+        \end{enumerate}
+
+      \item How to estimate RTT?
+
+        \begin{itemize}
+
+          \item Sample RTT: measured time from segment transmission until ACK receipt
+
+            \begin{itemize}
+
+              \item Ignore retransmissions
+
+              \item Sample RTT may have high variability
+
+            \end{itemize}
+
+          \item Estimated RTT: average of several recent Sample RTT measurements
+
+            \begin{itemize}
+
+              \item Estimates a typical RTT
+
+              \item ``Smoother'' variability
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item Timeout interval: Estimated RTT plus ``safety margin''
+
+        \begin{itemize}
+
+          \item Large variation in Estimated RTTL want a larger safety margin
+
+            $$Timeout=EstimatedRTT + 4\cdot DevRTT$$
+
+        \end{itemize}
+
+      \item Dev RTT: EWMA of Sample RTT deviation from Estimated RTT:
+
+        $$DevRTT=(1-\beta)\cdot DevRTT+\beta\cdot|SampleRTT-EstimatedRTT|$$
+
+        \begin{itemize}
+
+          \item $\beta$ is typically .25
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item TCP Sender (Simplified)
+
+    \begin{itemize}
+
+      \item Event: data received from application
+
+      \item Create a segment with sequence number
+
+      \item Sequence number is byte-stream number of first data byte in segment
+
+      \item Start timer if not already running
+
+        \begin{itemize}
+
+          \item Single retransmission timer
+
+          \item Think of timer as for oldest unACKed segment
+
+          \item Expiration interval: TimeOutInterval
+
+        \end{itemize}
+
+      \item Event: timeout
+
+        \begin{itemize}
+
+          \item Retransmit segment that caused timeout
+
+          \item Restart timer: twice the previous value
+
+        \end{itemize}
+
+      \item Event: ACK received
+
+        \begin{itemize}
+
+          \item If ACK acknowledges previously unACKed segments
+
+            \begin{itemize}
+
+              \item Update what is known to be ACKed
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item TCP Receiver: ACK Generation
+
+    \begin{center}
+      \begin{tabular}[H]{|p{.45\textwidth}|p{.45\textwidth}|}
+        \hline
+        Event at Receiver & TCP Receiver Action\\
+        \hline
+        Arrival of in-order segment with expected sequence number, All data up to expected sequence number already ACKed & Delayed ACK. Wait up to 500ms for next segment. If no next segment, send ACK\\
+        \hline
+        Arrival of in-order segment with expected sequence number. Another segment has ACK pending. & Immediately send single cumulative ACK, ACKing both in-order segments\\
+        \hline
+        Arrival of out-of-order segment higher-that-expeted sequence number: gap detected. & Immediately send duplicate ACK, indicating sequence number of next expected byte\\
+        \hline
+        Arrival of segment that partially or completely fills a gap. & Immediately send ACK, if segment starts at lower end of gap.\\
+        \hline
+      \end{tabular}
+    \end{center}
+
+  \item TCP Fast Retransmit
+
+    \begin{itemize}
+
+      \item Time-out period often relatively long:
+
+        \begin{itemize}
+
+          \item Long delay before resending lost packet
+
+        \end{itemize}
+
+      \item Detect lost segments via duplicate ACKs
+
+        \begin{itemize}
+
+          \item Sender often sends many segments back-to-back
+
+          \item If segment is lost, there will likely be many duplicate ACKs
+
+        \end{itemize}
+
+      \item If sender receives 3 additional ACKs for same data (``triple duplicate ACKs''), resend unACKed segment with smallest sequence number
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
