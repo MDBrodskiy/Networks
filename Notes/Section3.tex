@@ -768,6 +768,46 @@
 
     \end{itemize}
 
+  \item TCP Flow Control
+
+    \begin{itemize}
+
+      \item What happens if network layer delivers data faster than application layer removes data from socket buffers? Overflow
+
+      \item Flow control — Receiver controls sender, so sender will notoverflow receiver’s buffer by transmitting too much, too fast
+
+      \item \textsc{RcvBuffer} size set via socket options (typically 4096 bytes)
+
+        \begin{itemize}
+
+          \item Many operating systems auto adjust \textsc{RcvBuffer}
+
+        \end{itemize}
+
+      \item TCP receiver ``advertises'' free buffer space in \textsc{rwnd} field in TCP header
+
+      \item TCP Sender limits amount of unACKed (``in-flight'') data to received \textsc{rwnd}
+
+      \item Guarantees receive buffer will not overflow
+
+    \end{itemize}
+
+  \item TCP Connection Management
+
+    \begin{itemize}
+
+      \item Before exchanging data, sender/receiver ``handshake'':
+
+        \begin{itemize}
+
+          \item Agree to establish connection (each knowing the other is willing to establish connection)
+
+          \item Agree on connection parameters (\textit{e}.\textit{g}.\ starting sequence numbers)
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
