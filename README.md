@@ -26,6 +26,7 @@
 * [**Homework**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/)
   * [**Conceptual Homework 1**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/Homework1.pdf)
   * [**Programming Homework 1**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/EECE2540_002937644_PPS.py)
+  * [**Conceptual Homework 2**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/Homework2.pdf)
 * [**Exams**](https://github.com/MDBrodskiy/Networks/tree/master/Exams/)
 
 <!--
