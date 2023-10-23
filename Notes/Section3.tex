@@ -808,6 +808,234 @@
 
     \end{itemize}
 
+  \item Principles of Congestion Control
+
+    \begin{itemize}
+
+      \item Informally: ``too many sources sending too much data too fast for the network to handle''
+
+      \item Manifestations:
+
+        \begin{itemize}
+
+          \item Lost packets (buffer overflow at routers)
+
+          \item Long delays (queueing in router buffers)
+
+        \end{itemize}
+
+      \item Different from flow control (one sender sending too fast for one receiver)
+
+      \item A top-10 problem
+
+      \item Simplest scenario:
+
+        \begin{itemize}
+
+          \item One router, infinite buffers
+
+          \item No retransmissions needed
+
+          \item Output link capacity, $R$
+
+          \item Two flows
+
+          \item Sender: original data or arrival rate $\lambda_{in}$ bps
+
+          \item Receiver throughput or goodput $\lambda_{out}$ bps
+
+          \item Lost packets and duplicates:
+
+            \begin{itemize}
+
+              \item Packets can be lost, dropped at router due to full buffers — requiring retransmission
+
+              \item Sender timer can time out prematurely, sending two copies, both of which arrive to the receiver
+
+            \end{itemize}
+
+          \item ``Costs of congestion''
+
+            \begin{itemize}
+
+              \item More work (retransmission) for given receiver throughput
+
+              \item Unneeded retransmissions: link carries multiple copies of a packet $\to$ wasted capacity; decreasing more achievable throughput
+
+              \item When packet dropped or when a duplicate is transmitted, any upstream transmission capacity and buffering used for that packet was wasted
+
+              \item The network can enter congestion collapse: senders are sending packets at maximum rate; packets suffer long delays or are lost and many of them are duplicates
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Congestion Control
+
+    \begin{itemize}
+
+      \item End-to-end Congestion Control:
+
+        \begin{itemize}
+
+          \item No explicit feedback from network
+
+          \item Congestion inferred from observed loss and delay
+
+          \item Approach usually taken by TCP
+
+        \end{itemize}
+
+      \item Network-Assisted Congestion Control:
+
+        \begin{itemize}
+
+          \item Routers provide direct feedback to sending/receiving hosts with flows passing through congested router
+
+          \item May indicate congestion level or explicitly set sending rate
+
+          \item TCP ECN, ATM, DECbit protocols
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Rate Control: Congestion Window
+
+    \begin{itemize}
+
+      \item TCP congestion control keeps track of another variable: congestion window $\to$ \textsc{cwnd}
+
+      \item TCP sender limits sender window size: $N=LastByteSent-LastByteAcked\leq min(cwnd,rwnd)$
+
+      \item \textsc{cwnd} is dynamically adjusted in response to observed network congestion (implementing TCP congestion control)
+
+    \end{itemize}
+
+  \item TCP Congestion Control: AIMD
+
+    \begin{itemize}
+
+      \item Approach: sender can increase sending rate until congestion is detected, then decrease sending rate and, when recovered from congestion, increase the rate again
+
+      \item Additive Increase: increase cognestion window by 1 maximum segment size (MSS) evert RTT until loss event
+
+      \item Multiplicative Decrease: cut congestion window in half at each loss event
+
+    \end{itemize}
+    
+  \item Classic TCP Congestion Control
+
+    \begin{itemize}
+
+      \item Three Phases
+
+        \begin{enumerate}
+
+          \item Slow start
+
+            \begin{itemize}
+
+              \item Mandatory
+
+            \end{itemize}
+
+          \item Congestion Avoidance (CA)
+
+            \begin{itemize}
+
+              \item Mandatory
+
+            \end{itemize}
+
+          \item Fast recovery (FR)
+
+            \begin{itemize}
+
+              \item Optional
+
+            \end{itemize}
+
+        \end{enumerate}
+
+      \item Initially: slow start
+
+        \begin{itemize}
+
+          \item Congestion window bigger than a threshold $\to$ CA
+
+        \end{itemize}
+
+      \item Congestion: Loss event
+
+        \begin{itemize}
+
+          \item TCP Reno
+
+            \begin{itemize}
+
+              \item Loss detected by triple duplicate ACK $\to$ FR
+
+                \begin{itemize}
+
+                  \item After correct ACK received $\to$ CA
+
+                \end{itemize}
+
+              \item Loss detected by timeout event $\to$ slow start
+
+            \end{itemize}
+
+          \item TCP Tahoe
+
+            \begin{itemize}
+
+              \item Loss detected by triple duplicate ACK or timeout event $\to$ slow start
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item TCP Slow Start
+
+    \begin{itemize}
+
+      \item When connection begins, increase rate exponentially until first loss event:
+
+        \begin{itemize}
+
+          \item Initially, \textc{cwnd} = 1 MSS
+
+          \item Double \textsc{cwnd} every RTT $\to$ increment \textsc{cwnd} for every ACK received
+
+        \end{itemize}
+
+      \item Initial rate is slow, but ramps us exponentially fast
+
+      \item When \textsc{cwnd} grows larger than a threshold given by variable \textsc{ssthresh}:
+
+        \begin{itemize}
+
+          \item Congestion may be around the corner
+
+          \item Enter CA $\to$ linear growth
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item TCP Congestion Avoidance
+
+    \begin{itemize}
+
+      \item \textsc{cwnd} is conservatively increased by 1 MSS per RTT
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
