@@ -1034,6 +1034,169 @@
 
       \item \textsc{cwnd} is conservatively increased by 1 MSS per RTT
 
+      \item Loss event
+
+        \begin{itemize}
+
+          \item \textsc{ssthresh} is set to \textsc{cwnd/2}
+
+          \item TCP Reno:
+
+            \begin{itemize}
+
+              \item 3 Duplicate ACKs:
+
+                \begin{enumerate}
+
+                  \item Enter FR
+
+                  \item After correct ACK, go back to CA with \textsc{cwnd=ssthresh}
+
+                \end{enumerate}
+
+              \item Timeout event: \textsc{cwnd=1} MSS and enters slow start
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Fast Recovery
+
+    \begin{itemize}
+
+      \item \textsc{cwnd=ssthresh} + 3
+
+      \item In FR, before receiving the correct ACK, sender may receive more duplicate ACK
+
+      \item Duplicate ACK
+
+        \begin{itemize}
+
+          \item An out-of-order segment correctly receive in receiver
+
+          \item Cannot slide the window
+
+          \item Inflate \textsc{cwnd=cwnd} + 1
+
+        \end{itemize}
+
+      \item Correct ACK
+
+        \begin{itemize}
+
+          \item Deflate \textsc{cwnd=ssthresh}
+
+          \item Enter CA
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Classic TCP Congestion Control: AIMD
+
+    \begin{itemize}
+
+      \item Ignore the initial slow start period and assume losses are always indicated by triple duplicate ACKs
+
+        \begin{itemize}
+
+          \item TCP Reno congestion control consists of AIMD
+
+            \begin{itemize}
+
+              \item Additive increase of \textsc{cwnd}: 1 MSS per RTT
+
+              \item Multiplicative decrease of \textsc{cwnd}: halving on triple duplicate ACK event
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item TCP Cubic
+
+    \begin{itemize}
+
+      \item Is there a better way than AIMD to ``probe'' for usable capacity?
+
+      \item Insight/intuition
+
+        \begin{itemize}
+
+          \item $W_{max}$: size of \textsc{cwnd} at which congestion loss was detected
+
+          \item Congestion state of bottleneck link probably (?) hasn't changed much
+
+        \end{itemize}
+
+      \item $K$: point in time when TCP window size will reach $W_{max}$
+
+        \begin{itemize}
+
+          \item Several tunable CUBIC parameters determine the value of $K$
+
+        \end{itemize}
+
+      \item ACK receipt: increase \textsc{cwnd}, as a function of the cube of the distance between current time and $K$
+
+        \begin{itemize}
+
+          \item Larger increase when further away from $K$
+
+          \item Smaller increases (cautious) when nearer $K$
+
+        \end{itemize}
+
+      \item TCP Cubic only changes the CA phase (slow start and FR remain the same)
+
+      \item TCP Cubic default in GNU/Linux, and most web servers
+
+    \end{itemize}
+
+  \item TCP (classic, Cubic) increase TCP's sending rate until packet loss occurs at some router's output: the bottleneck link
+
+  \item TCP Vegas — ``keep the end-end pipe just full, but not fuller''
+
+    \begin{itemize}
+
+      \item Delay-based TCP Congestion Control
+
+        \begin{itemize}
+
+          \item Congestion control without inducing/forcing loss
+
+          \item BBR congestion control
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Explicit Congestion Notification
+
+    \begin{itemize}
+
+      \item TCP deployments can implement network-assissted congestion control
+
+        \begin{itemize}
+
+          \item Two bits in IP header marked by network router to indicate congestion
+            \begin{itemize}
+
+              \item Policy to determine marking chosen by network operator
+
+            \end{itemize}
+
+          \item Congestion indication carried to destination
+
+          \item Destination sets ECE (ECN Echo) bit on ACK segment to notify sender of congestion
+
+          \item Source sets CWR (Congestion Window Reduced) bit in next segment
+
+        \end{itemize}
+
     \end{itemize}
 
 \end{itemize}
