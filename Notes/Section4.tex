@@ -1,0 +1,252 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Written By Michael Brodskiy
+% Class: Fundamentals of Networks
+% Professor: E. Bernal Mor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Includes.tex}
+
+\title{The Network Layer}
+\date{\today}
+\author{Michael Brodskiy\\ \small Professor: E. Bernal Mor}
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+
+  \item Network Layer Overview
+
+    \begin{itemize}
+
+      \item Transport segment from sending to receiving host
+
+        \begin{itemize}
+
+          \item Sender: encapsulates segments into packets, passes to link layer
+
+          \item Receiver: extracts segments from packets and delivers segments to transport layer protocol
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Network Layer Functions
+
+    \begin{itemize}
+
+      \item Forwarding: move packets from router's input link to appropriate router's output link
+
+      \item Routing: determine route taken by packets from source to destination
+
+        \begin{itemize}
+
+          \item Routing Algorithms
+
+        \end{itemize}
+
+      \item Analogy: Taking a Trip
+
+        \begin{itemize}
+
+          \item Forwarding: process of getting through single intersection
+
+          \item Routing: process of planning trip from source to destination
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Data Plane
+
+    \begin{itemize}
+
+      \item Local, per-router function
+
+      \item Determines hoe packet arriving on router input port is forwarded to router output port
+
+    \end{itemize}
+
+  \item Control Plane
+
+    \begin{itemize}
+
+      \item Network-wide logic
+
+      \item Determines how packet is routed among routers along end-end path from source host to destination host
+
+      \item Two control-plane approaches
+
+        \begin{itemize}
+
+          \item Traditional routing algorithms: implemented in routers
+
+          \item Software-Defined Networking (SDN): implemented in (remote) servers
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Traditional Control Plane Algorithms
+
+    \begin{itemize}
+
+      \item Individual routing algorithm components in each and every router interact in the control plane
+
+    \end{itemize}
+
+  \item SDN Control Plane
+
+    \begin{itemize}
+
+      \item Remote controller interacts with local Control Agents (CAs) to compute, install forwarding tables in routers
+
+    \end{itemize}
+
+  \item Network Layer Service Model
+
+    \begin{itemize}
+
+      \item A network layer service model defines the characteristics of end-to-end transport of packets between sending and receiving hosts
+
+      \item Examples of possible services (this is only a partial list, there are countless variants):
+
+        \begin{itemize}
+
+          \item Guaranteed delivery
+
+          \item Guaranteed delivery with bounded delay
+
+          \item In-order packet delivery
+
+          \item Guaranteed minimum transmission rate
+
+          \item Security
+
+        \end{itemize}
+
+      \item Services provided by the network layer: two main options
+
+        \begin{enumerate}
+
+          \item Connection-oriented service
+
+            \begin{itemize}
+
+              \item A path from source all the way to destination must be established before any data packets can be sent
+
+                \begin{itemize}
+
+                  \item This connection is called a Virtual Circuit (VC)
+
+                  \item The network is called a virtual-circuit network
+
+                  \item Each VC requires router table space and reservation of resources
+
+                \end{itemize}
+
+              \item Designed to provide some quality of service (QoS) (\textit{i}.\textit{e}.\ maximum delay guarantees, minimum losses, minimum throughput guarantees, etc.)
+
+              \item Example: Asynchronous Transfer Mode (ATM) $\to$ popular in the 90s early 200, being replaced by all-IP architecyres
+
+            \end{itemize}
+
+          \item Connectionless service
+
+            \begin{itemize}
+
+              \item Best-effort service
+
+              \item Packets are injected into the network individually and routed independently of each other
+
+              \item No advance setup is needed
+
+              \item No error or flow service functionalities provided
+
+                \begin{itemize}
+
+                  \item The transport layer might do something end-to-end
+
+                  \item The link layer might do something at the link level
+
+                \end{itemize}
+
+              \item For example, IP (internet protocol)
+
+            \end{itemize}
+
+        \end{enumerate}
+
+    \end{itemize}
+    
+  \item Reflections on Best-Effort Service
+
+    \begin{itemize}
+
+      \item Simplicity of mechanism has allowed Internet to be widely deployed and adopted
+
+      \item Sufficient provisioning of capacity allows performance of real-time applications (\textit{e}.\textit{g}.\ interactive voice, video) to be ``good enough'' for ``most of the time''
+
+      \item Replicated, application-layer distributed services (data centers, content distribution networks) connecting close to clients' networks, allow services to be provided from multiple locations
+
+      \item Congestion control at the transport layer of ``elastic'' services helps
+
+    \end{itemize}
+
+  \item Input Ports
+
+    \begin{itemize}
+
+      \item Decentralized Switching:
+
+        \begin{itemize}
+
+          \item Using header field values, lookup output port using forwarding table in input port memory (``match plus action'')
+
+            \begin{itemize}
+
+              \item Destination-based forwarding: forward based only on destination IP address (traditional)
+
+              \item Generalized forwarding: forward based on any set of header field values
+
+              \item Input port queueing: if packets arrive faster than forwarding rate into switch fabric
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Input Port Queueing
+
+    \begin{itemize}
+
+      \item If switch fabric slower than input ports combined $\to$ queueing may occur at input queues
+
+        \begin{itemize}
+
+          \item Queueing delay and loss due to input buffer overflow
+
+        \end{itemize}
+
+      \item Head-of-the-Line (HOL) blocking: queued packet at front of queue prevents others in queue from moving forward
+
+    \end{itemize}
+
+  \item Output Ports
+
+    \begin{itemize}
+
+      \item Buffering required when packets arrive from fabric faster than link transmission rate
+
+      \item Drop policy: which packets to drop if no free buffers?
+
+      \item Scheduling discipline chooses among queued packets for next transmission
+
+    \end{itemize}
+
+\end{itemize}
+
+\end{document}
+
