@@ -290,6 +290,136 @@
 
     \end{itemize}
 
+  \item IP Fragmentation
+
+    \begin{itemize}
+
+      \item Network links have MTU (maximum transmission unit)
+
+        \begin{itemize}
+
+          \item MTU: largest possible payload in link-level frame $\to$ maximum IP packet size
+
+          \item Different link types, different MTUs
+
+        \end{itemize}
+
+      \item Problem: IP packet larger than MTU of output link
+
+        \begin{itemize}
+
+          \item Solution: Fragmentation?
+
+            \begin{itemize}
+
+              \item Typically, IPv6 does not allow fragmentation
+
+              \item Typically, TCP does not allow fragmentation
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IP Alternative to Fragmentation
+
+    \begin{itemize}
+
+      \item If fragmentation is no allowed $\to$ ``path MTU discovery''
+
+      \item Path MTU Discovery
+
+        \begin{itemize}
+
+          \item Each IPv4 packet is sent with its header bits set to indicate that fragmentation is not allowed to be performed (flag DF=1)
+
+          \item Added start-up delat
+
+          \item The transport layer can learn about the MTU to adapt the Maximum Segment Size (MSS)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IP Addressing: Introduction
+
+    \begin{itemize}
+
+      \item IPv4 Address: 32-bit identifier associated with each host or router interface
+
+      \item Interface: connectio between host/router and physical link
+
+        \begin{itemize}
+
+          \item Router's typically have multiple interfaces
+
+          \item Host typically has one or two interfaces (e.g, wired Ethernet, wireless 802.11)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Subnets
+
+    \begin{itemize}
+
+      \item Device interfaces that can physically reach each other without passing through an intervening router
+
+      \item IP Addresses have structure:
+
+        \begin{itemize}
+
+          \item Network portion (aka subnet portion): high order bits
+
+            \begin{itemize}
+
+              \item Devices in same subnet have common network portion
+
+            \end{itemize}
+
+          \item Host portion: remaining low order bits
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IP Addresssing in Subnets: CIDR
+
+    \begin{itemize}
+
+      \item CIDR: Classless Inter Domain Routing (pronouned ``cider'')
+
+        \begin{itemize}
+
+          \item Network portion (aka prefix) of address of arbitrary length
+
+          \item Address format (by convention): \textsc{a.b.c.d.x}, where \textsc{x} os the number of bits in the network portion of the address
+
+        \end{itemize}
+
+      \item Network address (subnet address): network portion and 0s in the host portion/\textsc{x}
+
+      \item Subnet mask: binary mask of 1s in teh subnet portion and 0s in the host portion $\to$ \textsc{x}
+
+        \begin{itemize}
+
+          \item The subnet mask can be ANDed with an IP address to obtain the network address
+
+        \end{itemize}
+
+      \item Recipe for identifying subnets
+
+        \begin{itemize}
+
+          \item Detach each interface from its host or router, creating ``islands'' of isolated networks
+
+          \item Each isolated network is a subnet
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
