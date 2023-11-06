@@ -420,6 +420,98 @@
 
     \end{itemize}
 
+  \item Longest Prefix Matching
+
+    \begin{itemize}
+
+      \item When looking for forwarding table entry for a given destination address, use longest address prefix that matches destination address.
+
+    \end{itemize}
+
+  \item Forwarding in Access Networks
+
+    \begin{itemize}
+
+      \item Forwarding tables in routers of an access network have an entry for their subnets
+
+      \item When a datagram reaches a router in an access network, it looks at the destination address of the datagram, and checks which subnet inside the network it belongs to. How?
+
+        \begin{itemize}
+
+          \item AND the destination address with the mask for each subnet entry in the table
+
+          \item Check to see if the result is the prefix in the entry
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Forwarding in the Network Core
+
+    \begin{itemize}
+
+      \item Routers in ISPs and backbones in the middle of the internet must know which way to go to get to every network and no simple default will work
+
+        \begin{itemize}
+
+          \item This can make for a very large table
+
+            \begin{itemize}
+
+              \item Routers must perform a lookup in this table for every datagram they forward
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Hierarchical Addressing: Route Aggregation
+
+    \begin{itemize}
+
+      \item Hierarchical addressing allows efficient advertisement for routing information
+
+    \end{itemize}
+
+  \item How Are IP Addresses Assigned?
+
+    \begin{itemize}
+
+      \item Hard-coded by system administrator $\to$ fixed IP address
+
+      \item DHCP: Dynamic Host Configuration Protocol
+
+        \begin{itemize}
+
+          \item Can renew its lease on address in use
+
+          \item Allows reuse of addresses (only hold address while connected/on)
+
+          \item Support for mobile users who join/leave network
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item DHCP: More than IP Addresses
+
+    \begin{itemize}
+
+      \item DHCP can return more than just allocated IP addresses on a subnet:
+
+        \begin{itemize}
+
+          \item Address of first-hop router for client
+
+          \item Name and IP address of local DNS server
+
+          \item Subnet mask (indicating network versus host portion of address)
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
