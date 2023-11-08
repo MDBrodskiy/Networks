@@ -512,6 +512,224 @@
 
     \end{itemize}
 
+  \item NAT: Network Address Translation
+
+    \begin{itemize}
+
+      \item All devices in local network have 32-bit IP addresses in a ``private'' IP address space that can only be used in local networks
+
+      \item ``Private'' IP address space corresponds to prefixes: 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16
+
+        \begin{itemize}
+
+          \item Defined by IANA (Internet Assigned Numbers Authority) $\to$ department of ICANN
+
+        \end{itemize}
+
+      \item Advantages:
+
+        \begin{itemize}
+
+          \item Private IP addresses can be reused in different private networks
+
+          \item Just one IP address needed from provider ISP for all devices
+
+        \end{itemize}
+
+      \item Implementation: NAT router (or NAT box)
+
+      \item Outgoing datagrams: replace (source IP address, port \#) of every outgoing datagram to (NAT IP address, new port \#)
+
+        \begin{itemize}
+
+          \item Remote clients/servers will respond using (NAT IP address, new port \#) as destination address
+
+        \end{itemize}
+
+      \item Store in NAT translation table every (source IP address, port \#) to (NAT IP address, new port) translation pair
+
+      \item Incoming datagrams: replace (NAT IP address, new port \#) in destination fields of every incoming datagram with corresponding (source IP address, port \#) stored in NAT table
+
+      \item NAT has been controversial:
+
+        \begin{itemize}
+
+          \item Routers ``should'' only process up to layer 3
+
+          \item Address ``shortage'' should be solved by IPv6
+
+          \item Violates end-to-end argument (port number manipulation by network-layer device)
+
+          \item NAT traversal: what if client wants to connect to server behind NAT?
+
+        \end{itemize}
+
+      \item But NAT is here to stay:
+
+        \begin{itemize}
+
+          \item Extensively used in home and institutional networks, 4G/5G cellular networks
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IPv6: Motivation
+
+    \begin{itemize}
+
+      \item Initial motivation: 32-bit IPv4 address space would be completely allocated
+
+      \item Additional motivation:
+
+        \begin{itemize}
+
+          \item Speed processing/forwarding: 40-byte fixed length header
+
+            \begin{itemize}
+
+              \item Extension headers: optional headers can be added after the fixed IPv6 header
+
+            \end{itemize}
+
+          \item Enable different network-layer treatment of ``flows''
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Transition from IPv4 to IPv6
+
+    \begin{itemize}
+
+      \item Not all routers can be upgraded simultaneously
+
+        \begin{itemize}
+
+          \item No ``flag delays''
+
+          \item How will network operate with mixed IPv4 and IPv6 routers?
+
+        \end{itemize}
+
+      \item Tunneling: Packet within a packet
+
+        \begin{itemize}
+
+          \item IPv6 datagram carried as payload in IPv4 datagram among IPv4 routers (``packet within a packet'')
+
+          \item TUnneling used extensively in other contexts (4G/5G)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Flow Table Abstraction
+
+    \begin{itemize}
+
+      \item Flow: defined by header fields
+
+      \item Generalized Forwarding
+
+        \begin{itemize}
+
+          \item Match: pattern values in packet header fields
+
+          \item Actions: for matched packet: drop, forward, modify matched packet or send matched packet to controller
+
+          \item Priority: disambiguate overlapping packets
+
+          \item Coutners: \# bytes and packets
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item OpenFlow Abstraction
+
+    \begin{itemize}
+
+      \item Match and Action: abstraction unifies different kinds of devices
+
+      \item Router:
+
+        \begin{itemize}
+
+          \item Match: longest destination IP prefix
+
+          \item Action: forward out a link
+
+        \end{itemize}
+
+      \item Firewall:
+
+        \begin{itemize}
+
+          \item Match: IP addresses and TCP/UDP port numbers
+
+          \item Action: permit of deny
+
+        \end{itemize}
+
+      \item Swtich
+
+        \begin{itemize}
+
+          \item Match: destination MAC adress (link layer address)
+
+          \item Action: Forward or flood
+
+        \end{itemize}
+
+      \item NAT
+
+        \begin{itemize}
+
+          \item Match: IP address and port
+
+          \item Action: rewrite address and port
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Middlebox
+
+    \begin{itemize}
+
+      \item Any intermediary box performing functions apart from normal, standard functions of an IP router
+
+      \item Initially: proprietary (closed) hardware solutions
+
+      \item Move towards ``whitebox'' hardware implementing open API
+
+        \begin{itemize}
+
+          \item Move away from proprietary hardware solutions
+
+          \item Programmable local actions via match and action
+
+          \item Move towards innovation/differentiation in software
+
+        \end{itemize}
+
+      \item SDN: (logically) centralized control and configuration management often in private/public cloud
+
+        \begin{itemize}
+
+          \item Network Function Virtualization (NFV): programmable services over white box networking, computation, and storage
+
+            \begin{itemize}
+
+              \item Allows for programmable network devices
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
