@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Written By Michael Brodskiy
+% Class: Fundamentals of Networks
+% Professor: E. Bernal Mor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Includes.tex}
+
+\title{The Network Layer: Control Plane}
+\date{\today}
+\author{Michael Brodskiy\\ \small Professor: E. Bernal Mor}
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+
+  \item Network-Layer Functions
+
+    \begin{itemize}
+
+      \item Forwarding (data plane)
+
+      \item Routing: determine route taken by packets from source to destination (control plane)
+
+        \begin{itemize}
+
+          \item Two approaches to structuring a network control plane:
+
+            \begin{itemize}
+
+              \item Per-router plane (traditional)
+
+              \item Software-defined
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Per-Router Control Plane
+
+    \begin{itemize}
+
+      \item Individual routing algorithm components in each and every router interact in the control plane
+
+    \end{itemize}
+
+  \item Logically Centralized Control Plane (SDN)
+
+    \begin{itemize}
+
+      \item Remote controller computers, installs forwarding tables (aka flow tables) in routers)
+
+    \end{itemize}
+
+  \item Routing Protocols
+
+    \begin{itemize}
+
+      \item Routing protocol goal: determine ``good'' paths (equivalently, routes) from sending hosts to receiving hosts, through network of routers
+
+        \begin{itemize}
+
+          \item Path: sequence of routers that packets traverse from given initial source host to destination host
+
+          \item ``Good'': least ``cost'', ``fastest'', ``least congested''
+
+          \item Routing is a top networking challenge
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Graph Abstraction: Link Costs
+
+    \begin{itemize}
+
+      \item $c_{a,b}$ is the cost of a direct link connecting $a$ and $b$
+
+        \begin{itemize}
+
+          \item Cost is defined by network operator: could always be 1, or inversely related to link capacity, or proportional to length, etc.
+
+        \end{itemize}
+
+      \item The overall cost is a sum of all the costs from link to link
+
+      \item The goal of a routing algorithm is to identify the least-cost path (aka shortest path) from sources to destination
+
+      \item If all links have the same cost, the least-cost path is the path with the minimal number of links
+
+    \end{itemize}
+
+  \item Routing Algorithm Classification
+
+    \begin{itemize}
+
+      \item Centralized or global: all routers have complete topology, link cost info (``link state'' algorithms)
+
+      \item Decentralized: iterative process of computation, exchange of info with neighbors (``distance vector'' algorithms)
+
+      \item Static: routes change slowly over time
+
+      \item Dynamic: routes change more quickly (periodic updates or in response to link cost changes)
+
+    \end{itemize}
+
+  \item Djikstra's Link-State Routing Algorithm
+
+    \begin{itemize}
+
+      \item Centralized: network topology and link costs known to all nodes
+
+        \begin{itemize}
+
+          \item Accomplished vie ``link state broadcast''
+
+          \item All nodes have same info
+
+        \end{itemize}
+
+      \item Computes least cost paths from one node (``source'') to all other nodes
+
+        \begin{itemize}
+
+          \item Gives forwarding table for that node
+
+        \end{itemize}
+
+      \item Iterative: after $k$ iterations, know least cost path to $k$ destinations
+
+    \end{itemize}
+
+\end{itemize}
+
+\end{document}
+
