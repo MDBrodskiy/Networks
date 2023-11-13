@@ -132,6 +132,78 @@
 
       \item Iterative: after $k$ iterations, know least cost path to $k$ destinations
 
+      \item Notation:
+
+        \begin{itemize}
+
+          \item $c_{x,y}$: direct link cost from node $x$ to $y$; $c_{x,y}=\infty$ if not direct neighbors
+            
+          \item $D(v)$: current estimate of cost of least-cost-path from source to destination $v$
+
+          \item $p(v)$: predecessor node along path from source to $v$
+
+          \item $N'$: set of nodes whose least-cost-path is definitively known
+
+          \item Ties can exist, and are broken arbitrarily
+
+          \item Construct least-cost-path tree by tracing predecessor nodes
+
+        \end{itemize}
+
+      \item Djikstra's Algorithm Complexity: $n$ nodes
+
+        \begin{itemize}
+
+          \item Each of $n$ iterations: need to check all the nodes, $w$, not in $N'$
+
+          \item $n(n+1)/2$ comparisons: $O(n^2)$ complexity
+
+          \item More efficient implementations possible $O(n\log(n))$
+
+        \end{itemize}
+
+      \item Oscillations possible: when link costs depend on traffic volume
+
+    \end{itemize}
+
+  \item Distance Vector Algorithm
+
+    \begin{itemize}
+
+      \item Based on Bellman-Ford (BF) Equation [dynamic programming]
+
+      \item Let $d_x(y)$: cost of least-cost path from $x$ to $y$, then:
+
+        $$d_x(y)=\text{min}_v(c_{x,v}+d_v(y))$$
+
+      \item $D_x(y)$ is the estimate of the least cost from $x$ to $y$
+
+        \begin{itemize}
+
+          \item Then $x$ maintains distance vector $D_x=[D_x(y):\,y\in N]$
+
+        \end{itemize}
+
+      \item Iterative, asynchronous: each local iteration caused by:
+
+        \begin{itemize}
+
+          \item Local link cost change
+
+          \item DV update message from neighbor
+
+        \end{itemize}
+
+      \item Distributed, self-stopping: each node notifies neighbors only when its DV changes
+
+        \begin{itemize}
+
+          \item Neighbors then notify their neighbors, only if necessary
+
+          \item No notification received; no action taken
+
+        \end{itemize}
+
     \end{itemize}
 
 \end{itemize}
