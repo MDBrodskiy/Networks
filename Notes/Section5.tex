@@ -206,6 +206,272 @@
 
     \end{itemize}
 
+  \item Distance Vector: Link Cost Changes
+
+    \begin{itemize}
+
+      \item Node detects local link cost change
+
+      \item Updates routing info, recalculates local DV
+
+      \item If DV changes, notify neighbors
+
+      \item ``Good news travels fast'' and ``Bad news travels slow'' (count to infinity problem)
+
+    \end{itemize}
+
+  \item Comparison of LS and DV Algorithms
+
+    \begin{itemize}
+
+      \item Message Complexity
+
+        \begin{itemize}
+
+          \item LS: $n$ nodes, $E$ links, $O(nE)$ messages sent
+
+          \item DV: exchange between neighbors only during convergence time
+
+        \end{itemize}
+
+      \item Speed of Convergence
+
+        \begin{itemize}
+
+          \item LS: $O(n^2)$ algorithm requires $O(nE)$ messages
+
+            \begin{itemize}
+
+              \item May have oscillations
+
+            \end{itemize}
+
+          \item DV: convergence time varies
+
+            \begin{itemize}
+
+              \item May be routing loops
+
+              \item Count-to-infinity problem
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item Robustness: what happens if router malfunctions or is compromised
+
+        \begin{itemize}
+
+          \item LS:
+
+            \begin{itemize}
+
+              \item Router can advertise incorrect link cost
+
+              \item Each router computes only its own table
+
+            \end{itemize}
+
+          \item DV:
+
+            \begin{itemize}
+
+              \item DV router can advertise incorrect path cost
+
+                \begin{itemize}
+
+                  \item ``I have a really low-cost path to everywhere'' is called black-holing
+
+                \end{itemize}
+
+              \item Each router's table used by others
+
+              \item Errors propagate through network
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Internet Approach to Scalable Routing
+
+    \begin{itemize}
+
+      \item Aggregate routers into regions known as ``Autonomous Systems'' (AS, aka ``domains'')
+
+      \item Intra-AS routing (aka ``intra-domain''): routing among routers in the same AS (``network'')
+
+        \begin{itemize}
+
+          \item All routers in AS must run the same intra-domain protocol
+
+          \item Routers in different AS can run different intra-domain routing
+
+          \item Gateway router: at ``edge'' of its own AS, it has link(s) to router(s) in other ASs
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Intra-AS Routing: Routing Within an AS
+
+    \begin{itemize}
+
+      \item Most common intra-AS routing protocols
+
+        \begin{itemize}
+
+          \item RIP: Routing Information Protocol
+
+            \begin{itemize}
+
+              \item Classic DV: DVs exchanged every 30 seconds
+
+              \item No longer widely used
+
+            \end{itemize}
+
+          \item EIGRP: Enhanced Interior Gateway Routing Protocol
+
+            \begin{itemize}
+
+              \item Formerly Cisco-proprietary for decades (became open in 2013)
+
+              \item DV-based
+
+            \end{itemize}
+
+          \item OSPF: Open Shortest Path First
+
+            \begin{itemize}
+
+              \item Link-state routing
+
+            \end{itemize}
+
+          \item IS-IS Protocol (Intermediate System to Intermediate System) is an ISO standard (not RFC standard) that is essentially same as OSPF
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item OSPF Routing
+
+    \begin{itemize}
+
+      \item ``Open'': publicly available
+
+      \item Classic Link-State
+
+        \begin{itemize}
+
+          \item Each router floods OSPF link-state advertisements (directly over IP rather than using TCP/UDP) to all other routers in entire AS
+
+          \item Multiple link costs metrics possible: link capacity, delay
+
+          \item Each router has full topology and uses Djikstra's algorithm to compute forwarding table
+
+        \end{itemize}
+
+      \item Security: all OSPF messages authenticated (to prevent malicious intrusion)
+
+    \end{itemize}
+
+  \item Hierarchical OSPF
+
+    \begin{itemize}
+
+      \item Two-level hierarchy: local area, backbone
+
+        \begin{itemize}
+
+          \item Link-state advertisements flooded only in area, or backbone
+
+          \item Each node has detailed area topology; only knows direction to reach other destinations
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Internet Inter-AS Routing: BGP
+
+    \begin{itemize}
+
+      \item BGP (Border Gateway Protocol): the de facto inter-domain routing protocol
+
+        \begin{itemize}
+
+          \item ``Glue that holds the Internet control plane together''
+
+          \item Uses an algorithm in the vein of distance vector routing
+
+        \end{itemize}
+
+      \item Allows network to advertise its existence, and the destinations it can reach, to rest of internet: ``I am here, here is who I can reach, and how''
+
+        \begin{itemize}
+
+          \item Advertise prefixes (subnet or collection of subnets)
+
+        \end{itemize}
+
+      \item BGP provides each AS a means to:
+
+        \begin{itemize}
+
+          \item eBGP (external BGP): obtain subnet reachability information from neighboring ASes
+
+          \item iBGP (internal BGP): propagate reachability information to all AS-internal routers
+
+          \item Determine ``good'' routes to other networks based on reachability information and policy
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item BGP Basics
+
+    \begin{itemize}
+
+      \item BGP session: two BGP routers (``peers'') exchange BGP messages over semi-permanent TCP connection
+
+      \item BGP is a ``path vector'' protocol: advertises paths to different destination network prefixes
+
+    \end{itemize}
+
+  \item Path Attributs and BGP Routes
+
+    \begin{itemize}
+
+      \item BGP advertised route: prefix + attributes
+
+        \begin{itemize}
+
+          \item Prefix: destination advertised
+
+          \item Two important attributes:
+
+            \begin{enumerate}
+
+              \item AS-PATH: list of ASs through which prefix advertisement has passed
+
+              \item NEXT-HOP: indicates specific internal-AS router to next-hop AS
+
+            \end{enumerate}
+
+        \end{itemize}
+
+      \item Policy-based Routing
+
+        \begin{itemize}
+
+          \item Gateway receiving route advertisement uses import policy to accept/decline a path
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
