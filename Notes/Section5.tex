@@ -440,7 +440,7 @@
 
     \end{itemize}
 
-  \item Path Attributs and BGP Routes
+  \item Path Attributes and BGP Routes
 
     \begin{itemize}
 
@@ -467,6 +467,134 @@
         \begin{itemize}
 
           \item Gateway receiving route advertisement uses import policy to accept/decline a path
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item BGP Route Selection
+
+    \begin{itemize}
+
+      \item Router may learn about more than one route to destination AS, the route selection is done based on:
+
+        \begin{itemize}
+
+          \item Local preference value attribute: policy decision
+
+          \item Shortest AS-PATH
+
+          \item Closest NEXT-HOP: ``hot potato'' routing
+
+            \begin{itemize}
+
+              \item Choose local gateway that has least intra-domain cost, don't worry about inter-domain cost
+
+            \end{itemize}
+
+          \item Other criteria
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Why Different Intra and Inter-AS Routing?
+
+    \begin{itemize}
+
+      \item Policy
+
+        \begin{itemize}
+
+          \item Inter-AS: admin wants control over how its traffic is routed, who routes through the network
+
+          \item Intra-AS: single admin, so no policy decisions needed
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Software Defined Networking (SDN)
+
+    \begin{itemize}
+
+      \item Internet network layer: historically, implemented via distributed, per-router approach:
+
+        \begin{itemize}
+
+          \item Monolithic router contains switching hardware, runs proprietary implementation of Internet standard protocols (IP, RIP, IS-IS, OSPF, BGP) in proprietary OS (\textit{e}.\textit{g}.\ Cisco IOS)
+
+          \item Different ``middleboxes'' for different network layer functions: firewall, switch, etc.
+
+        \end{itemize}
+
+      \item Why a logically centralized control plane?
+
+        \begin{itemize}
+
+          \item Easier network management: avoid router misconfigurations, greater flexibility of traffic flows
+
+          \item Table-based forwarding (recall OpenFlow) allows ``programming'' routers
+
+            \begin{itemize}
+
+              \item Centralized ``programming'' easier: compute tables centrally and distribute
+
+              \item Distributed ``programming'' more difficult: compute tables as a result of distributed algorithm (protocol) implemented in each and every router
+
+            \end{itemize}
+
+          \item Open (non-proprietary) implementation of control plane
+
+        \end{itemize}
+
+      \item Forwarding decisions can be made based on network/link/transport layer packet-header fields
+
+        \begin{itemize}
+
+          \item Forwarding devices are referred as ``packet switches'' (or just ``switches'')
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item OpenFlow Protocol
+
+    \begin{itemize}
+
+      \item Operates between controller and packet switches
+
+      \item TCP used to exchange messages (port 6653)
+
+        \begin{itemize}
+
+          \item Optional Encryption
+
+        \end{itemize}
+
+      \item OpenFlow messages:
+
+        \begin{itemize}
+
+          \item Controller-to-packet switch
+
+            \begin{itemize}
+
+              \item Modify-state: add/delete/modify entries in flow table
+
+              \item Read-State: collect statistics and counter values
+
+            \end{itemize}
+
+          \item Packet switch-to-controller
+
+            \begin{itemize}
+
+              \item Port-status: inform controller of a change in port status
+
+              \item Packet-in: packet is sent to controller
+
+            \end{itemize}
 
         \end{itemize}
 
