@@ -25,6 +25,7 @@
   * [**The Transport Layer**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section3.pdf)
   * [**The Network Layer: Data Plane**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section4.pdf)
   * [**The Network Layer: Control Plane**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section5.pdf)
+  * [**The Link Layer**](https://github.com/MDBrodskiy/Networks/tree/master/Notes/Section6.pdf)
 * [**Homework**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/)
   * [**Conceptual Homework 1**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/Homework1.pdf)
   * [**Programming Homework 1**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/EECE2540_002937644_PPS.py)
