@@ -1,0 +1,254 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Written By Michael Brodskiy
+% Class: Fundamentals of Networks
+% Professor: E. Bernal Mor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Includes.tex}
+
+\title{The Link Layer}
+\date{\today}
+\author{Michael Brodskiy\\ \small Professor: E. Bernal Mor}
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+
+  \item Link Layer: Introduction
+
+    \begin{itemize}
+
+      \item Terminology
+
+        \begin{itemize}
+
+          \item Hosts, routers $\to$ nodes
+
+          \item Communication channels that connect adjacent nodes along communication path $\to$ links
+
+            \begin{itemize}
+
+              \item Wired links
+
+              \item Wireless links
+
+            \end{itemize}
+
+          \item Over a given link, the transmitting node encapsulates the network-layer packet in a link-layer frame
+
+        \end{itemize}
+
+      \item Link layer has responsibility of transferring network-layer packets from one node to a physically adjacent node over a link
+
+    \end{itemize}
+
+  \item Link Layer: Context
+
+    \begin{itemize}
+
+      \item Packets transferred by different link protocols over different links
+
+        \begin{itemize}
+
+          \item WiFi on first link
+
+          \item Ethernet on next link
+
+          \item Etcetera
+
+        \end{itemize}
+
+      \item Each link protocol provides different services
+
+    \end{itemize}
+
+  \item Link Layer Services
+
+    \begin{itemize}
+
+      \item Framing
+
+        \begin{itemize}
+
+          \item Encapsulate packet into frame, adding header and maybe trailer
+
+          \item Addressing: ``MAC'' addresses used in frame headers to identify transmitter/receiver node $\to$ different from IP Address
+
+        \end{itemize}
+
+      \item Link access
+
+        \begin{itemize}
+
+          \item Medium access control (MAC) protocol specifies the rules by which a frame is transmitted onto the link
+
+        \end{itemize}
+
+      \item Flow control
+
+        \begin{itemize}
+
+          \item Pacing between adjacent sending and receiving nodes
+
+        \end{itemize}
+
+      \item Reliable delivery between adjacent nodes
+
+        \begin{itemize}
+
+          \item We learned how to do this already (Transport layer)!
+
+          \item Seldom used on low error rate links, for example: fiber, some twisted pairs
+
+          \item Commonly used on high error rate links, like wireless ones
+
+        \end{itemize}
+
+      \item Error control
+
+        \begin{itemize}
+
+          \item Errors caused by signal attenuation, noise
+
+          \item Error detection: receiver detects presence of errors
+
+            \begin{itemize}
+
+              \item Ask sender for retransmission or drops frame
+
+            \end{itemize}
+
+          \item Error correction: receiver identifies and corrects bit error(s) without resorting to retransmission
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Half-Duplex and Full-Duplex Links
+
+    \begin{itemize}
+
+      \item Unidirectional links (Simplex Links)
+
+        \begin{itemize}
+
+          \item Communication occurs in one direction only
+
+        \end{itemize}
+
+      \item Bidirectional links 
+
+        \begin{itemize}
+
+          \item Half-Duplex Link — Communication occurs in both directions, but not at same time
+
+          \item Full-Duplex Link — Communication occurs in both directions at same time
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Where is the Link Layer Implemented?
+
+    \begin{itemize}
+
+      \item For the most part, link layer is implemented on a chip called the network adapter, aka a Network Interface Card (NIC)
+
+        \begin{itemize}
+
+          \item The NIC implements Link and Physical layers
+
+          \item \textit{E}.\textit{g}. Ethernet card,  WiFi card or chip
+
+        \end{itemize}
+
+      \item NIC attaches into node’s system buses
+
+      \item Link layer is implemented as a combination of hardware and software
+
+        \begin{itemize}
+
+          \item Hardware: NIC implements most of the functions
+
+          \item Software: activating hardware controller, responds to controller interrupts, etc.
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Error Control
+
+    \begin{itemize}
+
+      \item EDC $\to$ Error Detection/Correction bits (redundant bits)
+
+      \item D $\to$ Data protected by error control, may include header fields
+
+      \item Error control is not 100\% reliable
+
+        \begin{itemize}
+
+          \item Error control technique may miss some errors; we want to keep the probability of missing the errors small
+
+          \item Larger EDC field yields better detection and correction
+
+          \item Error correction needs more redundant bits than error detection for same number of errors
+
+        \end{itemize}
+
+      \item Parity Checking
+
+        \begin{itemize}
+
+          \item Single bit parity: detect single bit errors
+
+            \begin{itemize}
+
+              \item Even parity: set parity bit so there is an even number of 1's
+
+              \item Odd parity: set parity bit so there is an odd number of 1's
+
+            \end{itemize}
+
+          \item Two-dimensional bit parity: detect and correct single bit errors
+
+            \begin{itemize}
+
+              \item Even parity: no errors
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item Cyclic Redundancy Check (CRC)
+
+        \begin{itemize}
+
+          \item $D$: $d$ data bits (given)
+
+          \item $G$: generator, bit pattern of $r+1$ bits where MSB must be 1 $\to$ transmitter and receiver agree on $G$ (given)
+
+          \item $R$: $r$ CRC bits, redundant bits
+
+          \item Transmitter: choose $R$, such that $\langle D,R\rangle$ is exactly divisible by $G$ (modulo-2 arithmetic) $\to D\cdot2^r\text{XOR}R=nG$
+
+          \item Receiver: knows $G$ and divides $\langle D,R\rangle$ by $G\to$ non-zero remainder: error detected!
+
+            \begin{itemize}
+
+              \item Can detect all burst errors less than $r+1$ bits
+
+            \end{itemize}
+
+          \item More powerful error-detection technique: widely used in practice (Ethernet,  WiFi)
+
+        \end{itemize}
+
+    \end{itemize}
+
+\end{itemize}
+
+\end{document}
+
