@@ -248,6 +248,416 @@
 
     \end{itemize}
 
+  \item Types of Links
+
+    \begin{itemize}
+
+      \item Point-to=point link: a single sender at one end on a link and a single receive at the other end of the link
+
+        \begin{itemize}
+
+          \item PPP (Point-to-Point Protocol), switched Ethernet, etc.
+
+        \end{itemize}
+
+      \item Broadcast (shared medium) link: Multiple transmitting and receiving nodes all connected to the same, single shared broadcast link
+
+        \begin{itemize}
+
+          \item Need to handle multiple access problem (classic Ethernet, 4G/5G, WiFi, etc.)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Multiple Access Problem
+
+    \begin{itemize}
+
+      \item Multiple access problem: how to coordinate the access of multiple transmitting and receiving nodes to a single, shared broadcast channel
+
+      \item Two or more simultaneous transmissions by nodes $\to$ interference
+
+        \begin{itemize}
+
+          \item Collision: if a node receives two or more signals at the same time (collision happens in the receiver)
+
+        \end{itemize}
+
+      \item MAC (Medium Access Control) Protocol
+
+        \begin{itemize}
+
+          \item Distributed algorithm that coordinates the frame transmissions of many nodes into the broadcast channel
+
+          \item Determines how nodes share channel and when nodes can transmit
+
+        \end{itemize}
+
+        \begin{itemize}
+
+          \item Communication about channel sharing must use channel itself! 
+
+          \item No out-of-band channel for coordination
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item An Ideal MAC Protocol
+
+    \begin{itemize}
+
+      \item Given: broadcast channel of rate $R$ bps
+
+      \item Desirable Characteristics:
+
+        \begin{enumerate}
+
+          \item When one node wants to transmit, it can send at rate $R$
+
+          \item When $M$ nodes want to transmit, each can send an average rate $R/M$
+
+          \item Fully Decentralized
+
+            \begin{itemize}
+
+              \item No special node to coordinate transmissions
+
+              \item No synchronizations of clocks, slots
+
+            \end{itemize}
+
+          \item Simple
+
+        \end{enumerate}
+
+    \end{itemize}
+
+  \item MAC Protocols Taxonomy
+
+    \begin{itemize}
+
+      \item Three Broad Classes:
+
+        \begin{enumerate}
+
+          \item Channel Partitioning
+
+            \begin{itemize}
+
+              \item Divide channel into smaller ``pieces'' (time slots, frequency, code)
+
+              \item Collision free: allocate piece of node for exclusive use to avoid collisions
+
+            \end{itemize}
+
+          \item Random Access
+
+            \begin{itemize}
+
+              \item Channel not divided, allow collisions
+
+              \item ``Recover'' from collisions
+
+            \end{itemize}
+
+          \item Turn-Taking
+
+            \begin{itemize}
+
+              \item Nodes take turns: tightly coordinate shared access to avoid collisions
+
+            \end{itemize}
+
+        \end{enumerate}
+
+    \end{itemize}
+
+  \item Channel Partitioning: FDMA
+
+    \begin{itemize}
+
+      \item FDMA: Frequency Division Multiple Access
+
+      \item Frequency spectrum of the channel is divided into $N$ frequency bands (each with transmission rate $R/N$ bps)
+
+      \item Each node is assigned a fixed frequency band
+
+      \item Advantages: Avoids collisions, and divides the capacity link fairly
+
+      \item Drawback: Unused link capacity if frequency band goes idle
+
+    \end{itemize}
+
+  \item Channel Partitioning: TDMA
+
+    \begin{itemize}
+
+      \item TDMA: Time Division Multiple Access
+
+      \item Access to channel in ``rounds'' $\to$ time divided in $N$ slots
+
+      \item Each node gets fixed time slot in each round (node average transmission rate $R/N$ bps)
+
+      \item Advantages: it avoids collisions, and it divides the link capacity fairly
+
+      \item Drawback: unused link capacity if slots fo idle
+
+    \end{itemize}
+
+  \item Random Access Protocols
+
+    \begin{itemize}
+
+      \item A transmitting node always transmits at full channel rate, $R$ bps
+
+      \item Two or more transmitting nodes create a collision
+
+      \item Random access MAC protcool specifics:
+
+        \begin{itemize}
+
+          \item How to detect collisions
+
+          \item How to recover from collisions (like via delayed transmissions)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Slotted ALOHA
+
+    \begin{itemize}
+
+      \item Assumptions:
+
+        \begin{itemize}
+
+          \item All frames same size
+
+          \item Time divided into equal size slots
+
+            \begin{itemize}
+
+              \item Slot duration: time to transmit one frame, $t_l$
+
+            \end{itemize}
+
+          \item Nodes start to transmit only at the beginning of slot
+
+          \item Nodes are synchronized
+
+          \item If 2 or more nodes transmit in slot, all nodes detect collision
+
+        \end{itemize}
+
+      \item Operation:
+
+        \begin{itemize}
+
+          \item When node obtains fresh frame, transmits in next slot
+
+            \begin{itemize}
+
+              \item If no collision: node can send new frame in next slot
+
+              \item If collision: node retransmits frame in each subsequent slot with probability $p$ until success
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Slotted ALOHA: Efficiency
+
+    \begin{itemize}
+
+      \item Efficiency: long-run fraction of successful slots (many nodes, all with many frames to send)
+
+      \item Suppose $N$ nodes with many frames to send, each transmits in slot with probability $p$
+
+        \begin{itemize}
+
+          \item Probability that a given node has success in a slot: $p(1-p)^{N-1}$
+
+          \item Probability that any node has a success: $Np(1-p)^{N-1}$
+
+          \item Max efficiency: find $p^*$ that maximizes $Np(1-p)^{N-1}$
+
+          \item For many nodes, take limit of $Np^*(1-p^*)^{N-1}$ as $N$ goes to infinity gives:
+
+            $$\text{Max Efficiency: }\frac{1}{e}=.37$$
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Pure Aloha
+
+    \begin{itemize}
+
+      \item Unslotted Aloha: simpler, no synchronization (no time slots)
+
+      \item Consider that $t_f$ is the frame transmission time
+
+      \item When node obtains fresh frame, transmit immediately
+        
+      \item Collision: retransmit with probability $p$ immediately, repeat every $t_f$ until the frame is transmitted
+
+      \item Collision probability increases:
+
+        \begin{itemize}
+
+          \item Frame sent at $t_0$ collides with other frames sent in $[t_0-t_f, t_0+t_f]$
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Pure Aloha Efficiency
+
+    \begin{itemize}
+
+      \item Efficiency at many nodes is $.18$, even worse than slotted aloha
+
+    \end{itemize}
+
+  \item Carrier Sense Multiple Access (CSMA)
+
+    \begin{itemize}
+
+      \item CSMA: listen before transmitting
+
+        \begin{itemize}
+
+          \item If channel sensed idle: transmit entire frame
+
+          \item If channel sensed busy: defer transmission
+
+        \end{itemize}
+
+      \item CSMA/CD: CSMA with Collision Detection
+
+        \begin{itemize}
+
+          \item Collisions detected within short time
+
+          \item Colliding transmissions aborted, reducing channel wastage
+
+          \item After collision, wait a random time before repeating the CSMA/CD cycle
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item CSMA: Collisions
+
+    \begin{itemize}
+
+      \item Collisions can still occur with carrier sensing:
+
+        \begin{itemize}
+
+          \item Propagation delay: two nodes may not heard each other's just-started transmission
+
+          \item The longer the propagation delay from one node to another, the larger the probability that a node is not able to sense a transmission that has already begun at another node
+
+          \item Distance and propagation delay play a crucial role in determining collisoon probability
+
+        \end{itemize}
+
+      \item Collision: nodes continute to transmit their frames
+
+        \begin{itemize}
+
+          \item Entire frame transmission time wasted
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item CSMA/CD
+
+    \begin{itemize}
+
+      \item Collision detection
+
+        \begin{itemize}
+
+          \item Wired Links: while transmitting, node monitors for the presence of signal energy coming from others nodes
+
+            \begin{itemize}
+
+              \item Signal energy from other nodes detected! Abort transmission
+
+            \end{itemize}
+
+          \item Wireless links: difficult $\to$ use CSMA/CA instead
+
+        \end{itemize}
+
+      \item CSMA/CD reduces the amount of time wasted in collisions
+
+        \begin{itemize}
+
+          \item Transmission aborted on collision detection
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Ethernet CSMA/CD Algorithm
+
+    \begin{itemize}
+
+      \item NIC receives packet from network layer, creates frame
+
+      \item NIC senses channel:
+
+        \begin{itemize}
+
+          \item If idle: start frame transmission
+
+          \item If busy: wait until channel idle, then transmit
+
+        \end{itemize}
+
+      \item If NIC transmits entire frame without collision, NIC is done with frame!
+
+      \item If NIC detects another transmission while transmitting, abort and send jam signal
+
+      \item After aborting, NIC enters binary exponential backoff:
+
+        \begin{itemize}
+
+          \item After $n$-th collision, NIC chooses $K$ at random from $\{0,1,2,\ldots,2^n-1\}$
+
+          \item NIC waits $K\cdot512$ bit duration times, returns to step 2
+
+          \item More collisions: longer backoff interval
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item CSMA/CD Efficiency
+
+    \begin{itemize}
+
+      \item $t_{prop}$ is the maximum propagation delay between two nodes in broadcast link
+
+      \item $t_{trans}$ is the time to transmit maximum-size frame
+
+        $$eff=\frac{1}{1+5t_{prop}/t_{trans}}$$
+
+      \item Efficiency goes to 1 when either propagation goes to zero or transmission goes to infinity
+
+      \item Better performance than ALOHA: and simple and cheap
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
