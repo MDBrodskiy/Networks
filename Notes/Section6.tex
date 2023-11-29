@@ -658,6 +658,242 @@
 
     \end{itemize}
 
+  \item ``Taking Turns'' MAC Protocols
+
+    \begin{itemize}
+
+      \item Master node ``invites'' slave nodes to transmit in turn
+
+      \item Typically used with ``dumb'' slave devices
+
+      \item Token Passing:
+
+        \begin{itemize}
+
+          \item A small frame, called a token, is passed from one node to the next sequentially
+
+          \item The node that has the token can transmit
+
+          \item Concerns:
+
+            \begin{itemize}
+
+              \item Token overhead
+
+              \item Latency
+
+              \item Single point of failure (token)
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Local Area Network (LAN)
+
+    \begin{itemize}
+
+      \item A switch is a link-layer device
+
+        \begin{itemize}
+
+          \item Switches operate at link layer
+
+          \item Switch frames
+
+          \item Do not recognize network-layer addresses
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item MAC (or LAN or physical or Ethernet) Addresses
+
+    \begin{itemize}
+
+      \item Link-layer address for interface
+
+      \item Function: used ``locally'' to get frame from one interface to another connected interface in the same subnet (in IP-addressing sense)
+
+      \item 48-bit MAC address (for most LANs) burned in NIC ROM, also sometimes software settable
+
+      \item For example: 1A:2F:BB:76:09:AD
+
+      \item Each interface on LAN
+
+        \begin{itemize}
+
+          \item Has unique 48-bit MAC address
+
+          \item Has unique 32-bit/128-bit IP address
+
+        \end{itemize}
+
+      \item MAC address allocation administered by IEEE
+
+      \item Manufacturer buys portion of MAC address space (to assure uniqueness)
+
+      \item Analogy:
+
+        \begin{itemize}
+
+          \item MAC address: like Social Security Number
+
+          \item IP address: like postal address
+
+        \end{itemize}
+
+      \item MAC flat address: portability
+
+        \begin{itemize}
+
+          \item Can move interface from one LAN to another with the same MAC address
+
+          \item Recall IP address is hierarchical and not portable: depends on IP subnet to which node it attached
+
+        \end{itemize}
+
+      \item MAC broadcast address: FF:FF:FF:FF:FF:FF
+
+        \begin{itemize}
+
+          \item Used by a sender that wants all the other interfaces on the LAN to receive and process a frame
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item ARP: Address Resolution Protocol
+
+    \begin{itemize}
+
+      \item ARP Protocol: to determine MAC address of interface knowing the IP address
+
+      \item ARP table: each IP node (host, router) on LAN has an ARP table
+
+        \begin{itemize}
+
+          \item IP/MAC address mappings for some LAN nodes:
+
+            $$<\text{IP address; MAC address; TTL}>$$
+
+            \begin{itemize}
+
+              \item TTL (Time To Live): time after which address mapping will be forgotten (typically 20 min)
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IEEE 802.3: Ethernet
+
+    \begin{itemize}
+
+      \item ``Dominant'' wired LAN technology:
+
+        \begin{itemize}
+
+          \item First widely used LAN technology
+
+          \item Simple and cheap
+
+          \item Kept up with speed race: 10 Mbps — 400 Gbps
+
+          \item Single chip, multiple speeds
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Ethernet: Physical Topology
+
+    \begin{itemize}
+
+      \item Bus: popular through mid 90s $\to$ classic Ethernet
+
+        \begin{itemize}
+            
+          \item All nodes in same collision domain (frames can collide with each other)
+
+        \end{itemize}
+
+      \item Hub-based: popular in late 90s $\to$ classic Ethernet
+
+        \begin{itemize}
+
+          \item A hub is a physical-layer device: input signal sent out on all other interfaces
+
+          \item Hub in center logically operates as a bus: all nodes in same collision domain
+
+        \end{itemize}
+
+      \item Star with a switch: prevails today $\to$ switched Ethernet
+
+        \begin{itemize}
+
+          \item Active link-layer switch in center
+
+          \item Each switch interface is in a different collision domain (frames in different interfaces do not collide with each other)
+
+          \item With full duplex linkes, MAC protocol unnecessary
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IEEE 802.3 Ethernet Standards: Link and Physical Layers
+
+    \begin{itemize}
+
+      \item Many different Ethernet standards
+
+        \begin{itemize}
+
+          \item Link layer and physical layer
+
+          \item Common MAC protocol and frame format
+
+          \item Different speeds: 2 Mbps, 10 Mbps, 100 Mbps, 1 Gbps, 10 Gbps, 40 Gbps, 100 Gbps, 400 Gbps, \ldots
+
+          \item Different physical layer and physical media (fiber, cable)
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Ethernet: Unreliable, Connectionless
+
+    \begin{itemize}
+
+      \item Ethernet MAC protocol (if needed): unslotted CSMA/CD with binary backoff
+
+      \item Error detection: CRC
+
+      \item Connectionless: no handshaking between sending and receiving NICs
+
+      \item Unreliable: receiving NIC does not send acks or nacks to sending NIC
+
+        \begin{itemize}
+
+          \item CSMA/CD (if needed): collisions are detected in the transmitter and colliding frames retransmitted
+
+          \item Error detection: when an error is detected, the frame is dropped
+
+            \begin{itemize}
+
+              \item Data in dropped frames is recovered end-to-end only if initial sender uses higherlayer reliable data transfer (like TCP), otherwise dropped data is lost
+
+            \end{itemize}
+
+          \item It makes sense as the physical medium has low bit error rate and if collisions are possible, they can be detected (CSMA/CD) and the frame is recovered
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
