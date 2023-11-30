@@ -894,6 +894,182 @@
 
     \end{itemize}
 
+  \item Ethernet Frame Structure
+
+    \begin{itemize}
+
+      \item Preamble: 8 bytes
+
+        \begin{itemize}
+
+          \item Used to synchronize receiver and sender clock rates (usually not considered part of the frame header)
+
+          \item 7 bytes with pattern 10101010 followed by one byte with pattern 10101011 (start of frame)
+
+        \end{itemize}
+
+      \item Addresses: 6-byte destination and source MAC addresses
+
+        \begin{itemize}
+
+          \item If adapter receives frame with matching destination address, or with broadcast adress, it passes data in frame to higher-layer protocol
+
+          \item Otherwise, adapter discards frame
+
+        \end{itemize}
+
+      \item CRC: 4-byte cyclic redundancy check
+
+        \begin{itemize}
+
+          \item Error detected: frame is dropped
+
+        \end{itemize}
+
+      \item Type: 2 bytes
+
+        \begin{itemize}
+
+          \item If below 0x0600 (1536) $\to$ Length: indicates the length of the data (payload)
+
+          \item If above 0x0600 $\to$ Type: indicates the higher layer protocol (most common)
+
+            \begin{itemize}
+
+              \item Mostly IP but others possible, like ARP
+
+              \item Used to demultiplex up at receiver
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Ethernet Switch
+
+    \begin{itemize}
+
+      \item Switch is a link-layer device: takes an active role
+
+        \begin{itemize}
+
+          \item Store and forward Ethernet frames
+
+          \item Examine incoming frame destination MAC address, selectively forward frame to one-or-more outgoing links or drop the frame
+
+          \item If needed, uses CSMA/CD to access link
+
+            \begin{itemize}
+
+              \item Half-duplex link or when a hub is connected to a switch interface
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item Transparent: hosts and routers are unaware of presence of switches
+
+        \begin{itemize}
+
+          \item A host/router addresses a frame to another host/router in LAN
+
+        \end{itemize}
+
+      \item Plug-and-play, self-learning
+
+        \begin{itemize}
+
+          \item Switches do not need to be configured
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Switch: Self-learning
+
+    \begin{itemize}
+
+      \item Switches are self-learning: switch table is built automatically, dynamically and autonomously (no intervention of admin)
+
+      \item Switch learns which MAC addresses can be reached through which interfaces
+
+        \begin{itemize}
+
+          \item When frame received, switch checks source MAC address of frame
+
+          \item “Learns” location of sender: incoming LAN segment
+
+          \item Records sender/location pair in switch table
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Switch: Frame Filtering/Forwarding
+
+    \begin{itemize}
+
+      \item When frame received at switch:
+
+        \begin{enumerate}
+
+          \item Update switch table: record MAC address of sending host, incoming link
+
+          \item Index switch table using MAC destination address
+
+          \item If entry found for destination $\to$ if destination on link from which frame arrived $\to$ drop frame
+
+            \begin{enumerate}
+
+              \item Else $\to$ forward frame on interface indicated by entry
+
+            \end{enumerate}
+
+          \item Else $\to$ flood (forward on all interfaces except arriving interface)
+
+        \end{enumerate}
+
+    \end{itemize}
+
+  \item Switches vs. Routers
+
+    \begin{itemize}
+
+      \item Both are store-and-forward:
+
+        \begin{itemize}
+
+          \item Routers: network-layer devices (examine network-layer headers)
+
+            \begin{itemize}
+
+              \item Use IP addresses to forward packet
+
+            \end{itemize}
+
+          \item Switches: link-layer devices (examine link-layer headers)
+
+            \begin{itemize}
+
+              \item Use MAC addresses to forward frame
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item Both have forwarding table
+
+        \begin{itemize}
+
+          \item Routers: compute tables using routing algorithms and IP addresses
+
+          \item Switches: learn forwarding tables using self-learning
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
