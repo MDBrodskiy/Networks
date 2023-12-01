@@ -33,6 +33,7 @@
   * [**Programming Homework 2**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/CompHW2.pdf)
   * [**Conceptual Homework 3**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/Homework3.pdf)
   * [**Programming Homework 3**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/EECE2540_002937644_Proj.py)
+  * [**Conceptual Homework 4**](https://github.com/MDBrodskiy/Networks/tree/master/Homework/Homework4.pdf)
 
 <!--
   * [**Chapter 1**](#Notes/Chapter\ 1)
