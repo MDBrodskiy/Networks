@@ -31,10 +31,17 @@
           Next, we must define the requirements for collision detection. For CSMA/CD to detect a collision, we know that the following condition must be satisfied:
 
           $$d_{trans}\geq 2d_{prop}$$
+          $$\frac{L}{R}\geq 2d_{prop}$$
 
-          Since, with our values this is not always strictly true, the collision is not necessarily detected.
+          Since, with our values, this is not always strictly true, the collision is not necessarily detected.
 
         \item If you were to design a CSMA/CD protocol for this broadcast channel, what would you do to make sure that all the collisions are detected in the transmitters?
+
+          As evident from the problem above, the collision has trouble being detected because of the large propagation delay. This, in tandem with the fact that CSMA/CD is used in wired networks only, can be key in fixing the issue. We know the propagation delay to be:
+
+          $$d_{prop}=\frac{d}{s}$$
+
+          Thus, we may fix the issue by either decreasing the wired link length, or obtaining a cable in which the propagation speed is greater. As such, the CSMA/CD protocol would be able to more easily detect a collision within the channel.
 
        \end{enumerate}
 
