@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Written By Michael Brodskiy
+% Class: Fundamentals of Networks
+% Professor: E. Bernal Mor
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{Includes.tex}
+
+\title{Wireless Networks}
+\date{\today}
+\author{Michael Brodskiy\\ \small Professor: E. Bernal Mor}
+
+\begin{document}
+
+\maketitle
+
+\begin{itemize}
+
+  \item Wireless and Mobile Networks: Context
+
+    \begin{itemize}
+
+      \item More wireless (mobile) phone subscribers than fixed (wired) phone subscribers (10-to-1 in 2029)
+
+      \item More mobile-broadband connected devices than fixed-broadband connected devices (5-1 in 2019)
+
+        \begin{itemize}
+
+          \item 4G/5G cellular networks now embracing Internet protocol stack, including SDN
+
+        \end{itemize}
+
+      \item Two important (but different) challenges
+
+        \begin{itemize}
+
+          \item Wireless: communication over wireless link
+
+          \item Mobility: handling the mobile user who changes point of attachment to network
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Wireless Hosts
+
+    \begin{itemize}
+
+      \item Laptop, smartphone, IoT device, etc.
+
+      \item Run applications
+
+      \item May be stationary (non-mobile) or mobile
+
+        \begin{itemize}
+
+          \item Wireless does not always mean mobility
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Base Station
+
+    \begin{itemize}
+
+      \item Key element that connects the wireless network to wired networks through the backbone link
+
+      \item Relay — responsible for sending packets between wired networks and wireless host(s) in its ``area''
+
+        \begin{itemize}
+
+          \item For examples, cell towers, IEEE 802.11, access points
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Network Infrastructure
+
+    \begin{itemize}
+
+      \item Larger network with which a wireless host may wish to communicate
+
+      \item Backbone link: connects base station to network infrastructure
+
+    \end{itemize}
+
+  \item Infrastructure Mode
+
+    \begin{itemize}
+
+      \item Each node is associated to the base station
+
+      \item Base station connects wireless hosts into the wired network
+
+      \item Handoff or handover: mobile node changes base station providing connection into wired network (without losing connectivity)
+
+    \end{itemize}
+
+  \item Operating Modes of a Wireless Network
+
+    \begin{itemize}
+
+      \item Ad Hoc Mode
+
+        \begin{itemize}
+
+          \item No base stations
+
+          \item No larger network infrastructure to connect
+
+          \item Nodes can only transmit to other nodes within link coverage
+
+          \item Nodes organize themselves into a network: route among themselves
+
+          \item Development of protocols is challenging
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Wireless Link Characteristics
+
+    \begin{itemize}
+
+      \item Decreased signal strength: radio signal attenuates as it propagates through matter (path loss)
+
+      \item Interference from other sources: some wireless network frequencies (like 2.4 GHz) are shared by many devices (like WiFi, Bluetooth, garage openers, motors, etc), which cause interference
+
+      \item Multipath propagation: radio signal reflects off objects and ground, arriving at destination may create different copies of the signal at slightly different times (multipath fading)
+
+      \item Moreover, nodes in the wireless link (broadcast link) do not receive the same signal
+
+    \end{itemize}
+
+  \item WiFi: IEEE 802.11 Wireless LAN
+
+    \begin{itemize}
+
+      \item Many different 802.11 Standards:
+
+        \begin{itemize}
+
+          \item Link layer and physical layer
+
+          \item Most of the IEEE 802.11 standards have infrastructure mode and ad hoc mode network versions
+
+          \item Common MAC protocol
+
+          \item Common frame format
+
+          \item All offer connectionless reliable service with positive ACK and stop and wait at the link layer
+
+          \item Different data rates
+
+          \item All (but one) operate in unlicensed spectrum $\to$ ISM bands (Industrial, Scientific, and Medical bands)
+
+            \begin{itemize}
+
+              \item Open frequency bands for non-exclusive usage (no license required)
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+\end{itemize}
+
+\end{document}
+
