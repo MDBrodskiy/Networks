@@ -166,6 +166,210 @@
 
     \end{itemize}
 
+  \item Infrastructure Mode
+
+    \begin{itemize}
+
+      \item Base station is the access point (AP)
+
+      \item Wireless host communicates with AP
+
+      \item Service set identifier (SSID): AP identifier
+
+      \item Basic Service Set (BSS) contains:
+
+        \begin{itemize}
+
+          \item Wireless hosts
+
+          \item AP
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IEEE 802.11 MAC Protocol: CSMA/CA
+
+    \begin{itemize}
+
+      \item IEEE 802.11 Sender
+
+        \begin{enumerate}
+
+          \item If sense channel idle for DIFs, then:
+
+            \begin{itemize}
+
+              \item Transmit entire frame (no CD)
+
+            \end{itemize}
+
+          \item If sense channel is busy, then:
+
+            \begin{itemize}
+
+              \item Wait until channel is idle for DIFS
+
+              \item Start random backoff time using binary exponential backoff
+
+              \item Timer counts down only when channel idle
+
+            \end{itemize}
+
+          \item Transmit when timer expires (only occurs when channel idle)
+
+            \begin{itemize}
+
+              \item Wait for ACK
+
+            \end{itemize}
+
+          \item If ACK received and another frame to send, begin CSMA/CA in step 2
+
+          \item If no ACK, increase random backoff interval, repeat step 2
+
+        \end{enumerate}
+
+      \item IEEE 802.11 Receiver
+
+        \begin{itemize}
+
+          \item If frame received OK (no collision and no errors detected)
+
+            \begin{itemize}
+
+              \item Return ACK after SIFS
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item Inter-frame spaces
+
+        \begin{itemize}
+
+          \item Used to give access priority to different transmissions:
+
+            \begin{itemize}
+
+              \item SIFS (Short Inter-Frame Space)
+
+              \item DIFS (Distributed Inter-Frame Space)
+
+            \end{itemize}
+
+          \item The smaller interface space, the higher priority
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IEEE 802.11: RTS/CTS
+
+    \begin{itemize}
+
+      \item IEEE 802.11 MAC protocol includes an optionalreservation scheme to deal with hidden terminal problem
+
+      \item Idea: sender “reserves” channel for data frames using small reservation packets
+
+        \begin{itemize}
+
+          \item Using CSMA/CA, sender transmits a short RTS (Request-To-Send) frame to receiver indicating the total time required to transmit the data frame
+
+          \item After SIFS, receiver broadcasts CTS (Clear-To-Send) in response to RTS, including the reserved time
+
+            \begin{itemize}
+
+              \item After receiving the CTS, sender waits SIFS and transmits data frame
+
+              \item Nodes that create collisions in receiver hear CTS and defer transmissions for the reserved time
+
+            \end{itemize}
+
+        \end{itemize}
+
+      \item RTS may still collide with other RTS, but RTS are short frames
+
+        \begin{itemize}
+
+          \item RTS/CTS only worth it for transmission of long data frames
+
+          \item Each node sets an RTS threshold $\to$ If frame is longer than threshold, then use RTS/CTS
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item IEEE 802.11: Reliable, Connectionless
+
+    \begin{itemize}
+
+      \item MAC Protocol: CSMA/CA
+
+      \item Error Detection in link layer: CRC
+
+      \item Connectionless: no handshaking between sending and receiving NICs
+
+      \item Reliable: receiving NIC sends positive ACKs to sending NIC if frame is received correctly
+
+        \begin{itemize}
+
+          \item Implements stop and wait
+
+          \item CSMA/CA: collisions can still happen and can not be detected
+
+            \begin{itemize}
+
+              \item Transmitter needs acknowledgements to know if frame was received without collisions
+
+            \end{itemize}
+
+          \item Error detection in link layer to detect bit errors introduced by the physical medium and physical layer
+
+            \begin{itemize}
+
+              \item Transmitter needs acknowledgements to know if frame was received correctly or otherwise recover from the error in the link
+
+            \end{itemize}
+
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Wireless, Mobility: Impact on Higher Layer Protocols
+
+    \begin{itemize}
+
+      \item Logically, impact on higher layers should be minimal
+
+        \begin{itemize}
+
+          \item Best effort service model remains unchanges
+
+          \item TCP and UDP can (and do) run over wireless, mobile
+
+        \end{itemize}
+
+      \item Performance-wise:
+
+        \begin{itemize}
+
+          \item Packet loss/delay due to bit-errors (discarded packets, delays for link-layer retransmissions), and handover loss
+
+            \begin{itemize}
+
+              \item TCP interprets loss as congestion, will decrease congestion window un-necessarily
+
+              \item Delay impairments for real-time traffic
+
+            \end{itemize}
+
+          \item Link capacity is a scarce resource for wireless links
+
+        \end{itemize}
+
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
